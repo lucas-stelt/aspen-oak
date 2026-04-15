@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — AspenOak</title>
+  <meta name="description" content="Visit AspenOak at 633 N 8th Street in downtown Sheboygan, WI. Hours, social media, and contact info.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">AspenOak</a>
+    <button class="nav-toggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li class="cta-link"><a href="order.html">Order Online</a></li>
+    </ul>
+  </nav>
+
+  <header class="page-header">
+    <p class="section-label">Find us</p>
+    <h1>Contact &amp; Hours</h1>
+    <p>We'd love to see you. Come find us in downtown Sheboygan.</p>
+  </header>
+
+  <div class="contact-layout">
+
+    <!-- ─── Info Column ─── -->
+    <div class="contact-info">
+      <h2>Come say hello.</h2>
+
+      <div class="info-block">
+        <h4>Address</h4>
+        <address>
+          633 N 8th Street<br>
+          Sheboygan, WI
+        </address>
+      </div>
+
+      <div class="info-block">
+        <h4>Hours</h4>
+        <table class="hours-tbl">
+          <tbody>
+            <tr>
+              <td>Monday – Friday</td>
+              <td>8:00 AM – 5:00 PM</td>
+            </tr>
+            <tr>
+              <td>Saturday</td>
+              <td>8:00 AM – 3:00 PM</td>
+            </tr>
+            <tr>
+              <td>Sunday</td>
+              <td>8:00 AM – 12:00 PM</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="info-block">
+        <h4>Follow Along</h4>
+        <div class="social-row">
+          <a href="https://www.instagram.com/AspenOakHome" target="_blank" rel="noopener" class="social-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            @AspenOakHome
+          </a>
+          <a href="https://www.facebook.com/AspenOakHome" target="_blank" rel="noopener" class="social-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            AspenOakHome
+          </a>
+        </div>
+      </div>
+
+      <div class="info-block">
+        <h4>Weekend Orders</h4>
+        <p>Order bagel sandwiches online for Saturday or Sunday pickup — no waiting in line.</p>
+        <a href="order.html" class="btn btn-primary" style="margin-top:0.75rem;display:inline-block;">Order Online →</a>
+      </div>
+    </div>
+
+    <!-- ─── Contact Form ─── -->
+    <div class="contact-form-card">
+      <h3>Send a Message</h3>
+      <form id="contact-form" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="c-first">First Name *</label>
+            <input type="text" id="c-first" name="first-name" placeholder="Jane" required>
+          </div>
+          <div class="form-group">
+            <label for="c-last">Last Name *</label>
+            <input type="text" id="c-last" name="last-name" placeholder="Smith" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="c-email">Email Address *</label>
+          <input type="email" id="c-email" name="email" placeholder="jane@email.com" required>
+        </div>
+        <div class="form-group">
+          <label for="c-subject">Subject</label>
+          <select id="c-subject" name="subject">
+            <option value="">— Select a topic —</option>
+            <option value="general">General Question</option>
+            <option value="order">Order Question</option>
+            <option value="catering">Catering / Events</option>
+            <option value="wholesale">Wholesale Inquiry</option>
+            <option value="feedback">Feedback</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="c-message">Message *</label>
+          <textarea id="c-message" name="message" placeholder="What's on your mind?" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-submit">Send Message →</button>
+      </form>
+    </div>
+
+  </div><!-- /.contact-layout -->
+
+  <!-- ─── Footer ─── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-logo">AspenOak</span>
+        <p>Scratch-made baked goods, specialty coffee, and a curated pantry in downtown Sheboygan, Wisconsin.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Navigate</h5>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="order.html">Order Online</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Hours</h5>
+        <ul>
+          <li><a>Mon–Fri: 8:00 AM – 5:00 PM</a></li>
+          <li><a>Saturday: 8:00 AM – 3:00 PM</a></li>
+          <li><a>Sunday: 8:00 AM – 12:00 PM</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 AspenOak. All rights reserved.</span>
+      <div class="footer-social">
+        <a href="https://www.facebook.com/AspenOakHome" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://www.instagram.com/AspenOakHome" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

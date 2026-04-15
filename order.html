@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Online — AspenOak</title>
+  <meta name="description" content="Order bagel sandwiches online for weekend pickup at AspenOak in downtown Sheboygan.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">AspenOak</a>
+    <button class="nav-toggle" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="menu.html">Menu</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li class="cta-link"><a href="order.html">Order Online</a></li>
+    </ul>
+  </nav>
+
+  <header class="page-header">
+    <p class="section-label">Weekend pickup</p>
+    <h1>Order Online</h1>
+    <p>Fresh bagel sandwiches ready when you arrive — no waiting in line.</p>
+  </header>
+
+  <div class="order-wrapper">
+
+    <div class="order-note">
+      <div class="order-note-icon">🥯</div>
+      <div>
+        <h3>Weekend Orders Only</h3>
+        <p>Bagel sandwich orders are available for <strong>Saturday (8 AM – 3 PM)</strong> and <strong>Sunday (8 AM – 12 PM)</strong> pickup. Walk-ins always welcome too — order ahead to guarantee your items.</p>
+      </div>
+    </div>
+
+    <!-- ─── Order Form ─── -->
+    <form id="order-form" novalidate>
+
+      <!-- Contact Info -->
+      <div class="form-card">
+        <h3 class="form-card-title">Your Information</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="first-name">First Name *</label>
+            <input type="text" id="first-name" name="first-name" placeholder="Jane" required>
+          </div>
+          <div class="form-group">
+            <label for="last-name">Last Name *</label>
+            <input type="text" id="last-name" name="last-name" placeholder="Smith" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="email">Email Address *</label>
+            <input type="email" id="email" name="email" placeholder="jane@email.com" required>
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="(920) 555-0100">
+          </div>
+        </div>
+      </div>
+
+      <!-- Pickup Details -->
+      <div class="form-card">
+        <h3 class="form-card-title">Pickup Details</h3>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="pickup-day">Pickup Day *</label>
+            <select id="pickup-day" name="pickup-day" required>
+              <option value="">— Select a day —</option>
+              <option value="saturday">Saturday</option>
+              <option value="sunday">Sunday</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="pickup-time">Pickup Time *</label>
+            <select id="pickup-time" name="pickup-time" required disabled>
+              <option value="">— Select a day first —</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bagel Sandwiches -->
+      <div class="form-card">
+        <h3 class="form-card-title">Bagel Sandwiches</h3>
+        <p style="font-size:0.875rem;color:var(--mid);margin-bottom:1.5rem;">Set quantity to 0 for items you don't want. Minimum order: 1 item.</p>
+
+        <table class="order-items">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Description</th>
+              <th style="text-align:center;">Qty</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Plain Jane</strong> <span style="color:var(--orange);font-weight:600;">$7.50</span></td>
+              <td><span>Bacon · Egg · Cheese</span></td>
+              <td class="qty-cell">
+                <div class="qty-ctrl">
+                  <button type="button" class="qty-btn" data-dir="down">−</button>
+                  <span class="qty-num">0</span>
+                  <button type="button" class="qty-btn" data-dir="up">+</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>The Dilly</strong> <span style="color:var(--orange);font-weight:600;">$8.50</span></td>
+              <td><span>Bacon · Egg · Cheese · Dill Cream Cheese · Hot Honey</span></td>
+              <td class="qty-cell">
+                <div class="qty-ctrl">
+                  <button type="button" class="qty-btn" data-dir="down">−</button>
+                  <span class="qty-num">0</span>
+                  <button type="button" class="qty-btn" data-dir="up">+</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Bagel Type Preference -->
+        <div class="form-group" style="margin-top:1.5rem;">
+          <label for="bagel-type">Bagel Type *</label>
+          <select id="bagel-type" name="bagel-type" required>
+            <option value="">— Choose your bagel —</option>
+            <option value="plain">Plain</option>
+            <option value="everything">Everything</option>
+            <option value="asiago">Asiago</option>
+            <option value="jalapeno-cheddar">Jalapeño Cheddar</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Drinks -->
+      <div class="form-card">
+        <h3 class="form-card-title">Add Drinks</h3>
+        <table class="order-items">
+          <thead>
+            <tr>
+              <th>Drink</th>
+              <th>Notes</th>
+              <th style="text-align:center;">Qty</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Drip Coffee</strong></td>
+              <td><span>Regular or dark roast</span></td>
+              <td class="qty-cell">
+                <div class="qty-ctrl">
+                  <button type="button" class="qty-btn" data-dir="down">−</button>
+                  <span class="qty-num">0</span>
+                  <button type="button" class="qty-btn" data-dir="up">+</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Latte</strong></td>
+              <td><span>Hot or iced</span></td>
+              <td class="qty-cell">
+                <div class="qty-ctrl">
+                  <button type="button" class="qty-btn" data-dir="down">−</button>
+                  <span class="qty-num">0</span>
+                  <button type="button" class="qty-btn" data-dir="up">+</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Chai Latte</strong></td>
+              <td><span>Hot or iced</span></td>
+              <td class="qty-cell">
+                <div class="qty-ctrl">
+                  <button type="button" class="qty-btn" data-dir="down">−</button>
+                  <span class="qty-num">0</span>
+                  <button type="button" class="qty-btn" data-dir="up">+</button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Espresso</strong></td>
+              <td><span>Single or double shot</span></td>
+              <td class="qty-cell">
+                <div class="qty-ctrl">
+                  <button type="button" class="qty-btn" data-dir="down">−</button>
+                  <span class="qty-num">0</span>
+                  <button type="button" class="qty-btn" data-dir="up">+</button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Special Requests -->
+      <div class="form-card">
+        <h3 class="form-card-title">Special Requests</h3>
+        <div class="form-group form-row solo">
+          <label for="notes">Notes or Allergies</label>
+          <textarea id="notes" name="notes" placeholder="Any allergies, substitutions, or notes for your order..."></textarea>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-submit">Place My Order →</button>
+
+    </form>
+
+    <!-- Success State -->
+    <div id="order-success" class="order-success">
+      <div class="success-icon">🎉</div>
+      <h2>Order Received!</h2>
+      <p>Thanks for ordering from AspenOak. We'll have everything fresh and ready for your pickup.<br><br>
+      Questions? Give us a call or stop by at <strong>633 N 8th Street, Sheboygan</strong>.<br>
+      See you soon!</p>
+    </div>
+
+  </div><!-- /.order-wrapper -->
+
+  <!-- ─── Footer ─── -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="footer-logo">AspenOak</span>
+        <p>Scratch-made baked goods, specialty coffee, and a curated pantry in downtown Sheboygan, Wisconsin.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Navigate</h5>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="order.html">Order Online</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Hours</h5>
+        <ul>
+          <li><a>Mon–Fri: 8:00 AM – 5:00 PM</a></li>
+          <li><a>Saturday: 8:00 AM – 3:00 PM</a></li>
+          <li><a>Sunday: 8:00 AM – 12:00 PM</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 AspenOak. All rights reserved.</span>
+      <div class="footer-social">
+        <a href="https://www.facebook.com/AspenOakHome" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://www.instagram.com/AspenOakHome" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
