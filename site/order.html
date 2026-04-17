@@ -6,6 +6,311 @@
   <title>Order Online — AspenOak</title>
   <meta name="description" content="Order bagel sandwiches online for weekend pickup at AspenOak in downtown Sheboygan.">
   <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── Cart button in nav ── */
+    .cart-nav-btn {
+      background: var(--orange);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 0.4rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: background 0.2s;
+    }
+    .cart-nav-btn:hover { background: #c0501a; }
+    .cart-count {
+      background: #fff;
+      color: var(--orange);
+      border-radius: 999px;
+      padding: 0 0.4rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      min-width: 1.25rem;
+      text-align: center;
+      display: none;
+    }
+    .cart-count.visible { display: inline-block; }
+
+    /* ── Page header ── */
+    .order-hero {
+      text-align: center;
+      padding: 4rem 1.5rem 2rem;
+    }
+    .order-hero h1 { margin-bottom: 0.5rem; }
+    .order-hero p { color: var(--mid); max-width: 480px; margin: 0 auto; }
+
+    .weekend-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      background: #fff8f0;
+      border: 1.5px solid #f5d9b8;
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      max-width: 680px;
+      margin: 0 auto 3rem;
+    }
+    .weekend-note-icon { font-size: 1.75rem; line-height: 1; }
+    .weekend-note h3 { margin: 0 0 0.25rem; font-size: 1rem; }
+    .weekend-note p { margin: 0; font-size: 0.875rem; color: var(--mid); }
+
+    /* ── Product sections ── */
+    .order-page { max-width: 900px; margin: 0 auto; padding: 0 1.5rem 6rem; }
+    .product-section { margin-bottom: 3.5rem; }
+    .product-section-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 2px solid #f0ede8;
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.25rem;
+    }
+    .product-card {
+      background: #fff;
+      border: 1.5px solid #ede9e2;
+      border-radius: 14px;
+      padding: 1.25rem;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+    }
+    .product-card:hover {
+      border-color: var(--orange);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      transform: translateY(-2px);
+    }
+    .product-card h4 { margin: 0 0 0.25rem; font-size: 1rem; }
+    .product-card p { margin: 0 0 0.75rem; font-size: 0.85rem; color: var(--mid); line-height: 1.4; }
+    .product-card-footer { display: flex; align-items: center; justify-content: space-between; }
+    .product-price { font-weight: 700; color: var(--orange); font-size: 0.95rem; }
+    .add-btn {
+      background: var(--orange);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 0.35rem 0.85rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .add-btn:hover { background: #c0501a; }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: #fff;
+      border-radius: 18px;
+      padding: 2rem;
+      max-width: 460px;
+      width: 100%;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-close {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      background: #f0ede8;
+      border: none;
+      border-radius: 999px;
+      width: 2rem; height: 2rem;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--dark);
+    }
+    .modal h3 { margin: 0 0 0.25rem; font-size: 1.2rem; }
+    .modal .modal-desc { color: var(--mid); font-size: 0.875rem; margin: 0 0 1.5rem; }
+    .modal-price { font-weight: 700; color: var(--orange); font-size: 1rem; margin-bottom: 1.5rem; }
+
+    .modal-section { margin-bottom: 1.5rem; }
+    .modal-section label { display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .modal-section select, .modal-section textarea {
+      width: 100%;
+      padding: 0.6rem 0.75rem;
+      border: 1.5px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-family: inherit;
+      background: #fff;
+    }
+    .modal-section select:focus, .modal-section textarea:focus {
+      outline: none;
+      border-color: var(--orange);
+    }
+
+    .qty-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+    .qty-row label { font-size: 0.875rem; font-weight: 600; margin: 0; }
+    .qty-ctrl { display: flex; align-items: center; gap: 0.5rem; margin-left: auto; }
+    .qty-btn {
+      width: 2rem; height: 2rem;
+      border: 1.5px solid #ddd;
+      border-radius: 999px;
+      background: #fff;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.15s;
+    }
+    .qty-btn:hover { border-color: var(--orange); color: var(--orange); }
+    .qty-num { font-weight: 700; min-width: 1.5rem; text-align: center; }
+
+    .upsell-section { margin-bottom: 1.5rem; }
+    .upsell-section p { font-size: 0.8rem; font-weight: 600; color: var(--mid); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; }
+    .upsell-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .upsell-chip {
+      border: 1.5px solid #ddd;
+      border-radius: 999px;
+      padding: 0.3rem 0.85rem;
+      font-size: 0.8rem;
+      cursor: pointer;
+      background: #fff;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .upsell-chip:hover, .upsell-chip.selected {
+      border-color: var(--orange);
+      background: #fff8f0;
+      color: var(--orange);
+      font-weight: 600;
+    }
+
+    .modal-add-btn {
+      width: 100%;
+      background: var(--orange);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 0.85rem;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .modal-add-btn:hover { background: #c0501a; }
+
+    /* ── Cart drawer ── */
+    .cart-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 900;
+    }
+    .cart-overlay.open { display: block; }
+    .cart-drawer {
+      position: fixed;
+      top: 0; right: 0;
+      height: 100%;
+      width: min(420px, 100vw);
+      background: #fff;
+      z-index: 950;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .cart-drawer.open { transform: translateX(0); }
+    .cart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem;
+      border-bottom: 1.5px solid #f0ede8;
+    }
+    .cart-header h3 { margin: 0; font-size: 1.1rem; }
+    .cart-close {
+      background: #f0ede8;
+      border: none;
+      border-radius: 999px;
+      width: 2rem; height: 2rem;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cart-items { flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem; }
+    .cart-empty { text-align: center; color: var(--mid); padding: 3rem 0; font-size: 0.9rem; }
+    .cart-item {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid #f0ede8;
+    }
+    .cart-item:last-child { border-bottom: none; }
+    .cart-item-info { flex: 1; }
+    .cart-item-name { font-size: 0.9rem; font-weight: 600; margin: 0 0 0.15rem; }
+    .cart-item-meta { font-size: 0.78rem; color: var(--mid); margin: 0; }
+    .cart-item-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.35rem; }
+    .cart-item-price { font-weight: 700; font-size: 0.9rem; color: var(--orange); }
+    .cart-item-remove {
+      font-size: 0.72rem;
+      color: #bbb;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0;
+    }
+    .cart-item-remove:hover { color: #e55; }
+    .cart-footer { padding: 1.25rem 1.5rem; border-top: 1.5px solid #f0ede8; }
+    .cart-total { display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 1rem; font-size: 1rem; }
+    .cart-total span:last-child { color: var(--orange); }
+
+    /* Pickup form inside cart */
+    .pickup-form { margin-bottom: 1rem; }
+    .pickup-form label { font-size: 0.8rem; font-weight: 600; display: block; margin-bottom: 0.3rem; }
+    .pickup-form select, .pickup-form textarea {
+      width: 100%;
+      padding: 0.5rem 0.65rem;
+      border: 1.5px solid #ddd;
+      border-radius: 8px;
+      font-size: 0.825rem;
+      font-family: inherit;
+      margin-bottom: 0.75rem;
+      background: #fff;
+    }
+    .pickup-form select:focus, .pickup-form textarea:focus {
+      outline: none;
+      border-color: var(--orange);
+    }
+    .pickup-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+    .checkout-btn {
+      width: 100%;
+      background: var(--orange);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 0.9rem;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .checkout-btn:hover { background: #c0501a; }
+    .checkout-btn:disabled { background: #ccc; cursor: not-allowed; }
+    .checkout-btn .spinner { display: none; }
+    .checkout-btn.loading .btn-text { display: none; }
+    .checkout-btn.loading .spinner { display: inline; }
+  </style>
 </head>
 <body>
 
@@ -19,210 +324,192 @@
       <li><a href="menu.html">Menu</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="contact.html">Contact</a></li>
-      <li class="cta-link"><a href="order.html">Order Online</a></li>
+      <li>
+        <button class="cart-nav-btn" id="cart-open-btn" aria-label="Open cart">
+          🛒 Cart <span class="cart-count" id="cart-count">0</span>
+        </button>
+      </li>
     </ul>
   </nav>
 
-  <header class="page-header">
+  <div class="order-hero">
     <p class="section-label">Weekend pickup</p>
     <h1>Order Online</h1>
     <p>Fresh bagel sandwiches ready when you arrive — no waiting in line.</p>
-  </header>
+  </div>
 
-  <div class="order-wrapper">
+  <div class="order-page">
 
-    <div class="order-note">
-      <div class="order-note-icon">🥯</div>
+    <div class="weekend-note">
+      <div class="weekend-note-icon">🥯</div>
       <div>
         <h3>Weekend Orders Only</h3>
-        <p>Bagel sandwich orders are available for <strong>Saturday (8 AM – 3 PM)</strong> and <strong>Sunday (8 AM – 12 PM)</strong> pickup. Walk-ins always welcome too — order ahead to guarantee your items.</p>
+        <p>Bagel sandwich orders are available for <strong>Saturday (8 AM – 3 PM)</strong> and <strong>Sunday (8 AM – 12 PM)</strong> pickup. Walk-ins always welcome too.</p>
       </div>
     </div>
 
-    <!-- ─── Order Form ─── -->
-    <form id="order-form" novalidate>
+    <!-- Bagel Sandwiches -->
+    <div class="product-section">
+      <div class="product-section-title">Bagel Sandwiches</div>
+      <div class="product-grid">
 
-      <!-- Contact Info -->
-      <div class="form-card">
-        <h3 class="form-card-title">Your Information</h3>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="first-name">First Name *</label>
-            <input type="text" id="first-name" name="first-name" placeholder="Jane" required>
-          </div>
-          <div class="form-group">
-            <label for="last-name">Last Name *</label>
-            <input type="text" id="last-name" name="last-name" placeholder="Smith" required>
+        <div class="product-card" data-id="plain-jane" data-name="Plain Jane" data-desc="Bacon · Egg · Cheese" data-price="7.50" data-cents="750" data-bagel="true">
+          <h4>Plain Jane</h4>
+          <p>Bacon · Egg · Cheese</p>
+          <div class="product-card-footer">
+            <span class="product-price">$7.50</span>
+            <button class="add-btn">+ Add</button>
           </div>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="email">Email Address *</label>
-            <input type="email" id="email" name="email" placeholder="jane@email.com" required>
+
+        <div class="product-card" data-id="the-dilly" data-name="The Dilly" data-desc="Bacon · Egg · Cheese · Dill Cream Cheese · Hot Honey" data-price="8.50" data-cents="850" data-bagel="true">
+          <h4>The Dilly</h4>
+          <p>Bacon · Egg · Cheese · Dill Cream Cheese · Hot Honey</p>
+          <div class="product-card-footer">
+            <span class="product-price">$8.50</span>
+            <button class="add-btn">+ Add</button>
           </div>
-          <div class="form-group">
-            <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" name="phone" placeholder="(920) 555-0100">
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Drinks -->
+    <div class="product-section">
+      <div class="product-section-title">Drinks</div>
+      <div class="product-grid">
+
+        <div class="product-card" data-id="drip-coffee" data-name="Drip Coffee" data-desc="Regular or dark roast" data-price="3.00" data-cents="300">
+          <h4>Drip Coffee</h4>
+          <p>Regular or dark roast</p>
+          <div class="product-card-footer">
+            <span class="product-price">$3.00</span>
+            <button class="add-btn">+ Add</button>
           </div>
+        </div>
+
+        <div class="product-card" data-id="latte" data-name="Latte" data-desc="Hot or iced" data-price="5.50" data-cents="550">
+          <h4>Latte</h4>
+          <p>Espresso with steamed milk · Hot or iced</p>
+          <div class="product-card-footer">
+            <span class="product-price">$5.50</span>
+            <button class="add-btn">+ Add</button>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="chai-latte" data-name="Chai Latte" data-desc="Hot or iced" data-price="5.50" data-cents="550">
+          <h4>Chai Latte</h4>
+          <p>Spiced chai with steamed milk · Hot or iced</p>
+          <div class="product-card-footer">
+            <span class="product-price">$5.50</span>
+            <button class="add-btn">+ Add</button>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="espresso" data-name="Espresso" data-desc="Single or double shot" data-price="3.00" data-cents="300">
+          <h4>Espresso</h4>
+          <p>Single or double shot, pulled fresh</p>
+          <div class="product-card-footer">
+            <span class="product-price">$3.00</span>
+            <button class="add-btn">+ Add</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /.order-page -->
+
+  <!-- ── Product Modal ── -->
+  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true">
+    <div class="modal" id="modal">
+      <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+      <h3 id="modal-name"></h3>
+      <p class="modal-desc" id="modal-desc"></p>
+      <p class="modal-price" id="modal-price"></p>
+
+      <!-- Bagel type (sandwiches only) -->
+      <div class="modal-section" id="bagel-section" style="display:none;">
+        <label for="modal-bagel">Bagel Type *</label>
+        <select id="modal-bagel">
+          <option value="">— Choose your bagel —</option>
+          <option value="Plain">Plain</option>
+          <option value="Everything">Everything</option>
+          <option value="Asiago">Asiago</option>
+          <option value="Jalapeño Cheddar">Jalapeño Cheddar</option>
+        </select>
+      </div>
+
+      <!-- Quantity -->
+      <div class="qty-row">
+        <label>Quantity</label>
+        <div class="qty-ctrl">
+          <button class="qty-btn" id="modal-qty-down">−</button>
+          <span class="qty-num" id="modal-qty">1</span>
+          <button class="qty-btn" id="modal-qty-up">+</button>
         </div>
       </div>
 
-      <!-- Pickup Details -->
-      <div class="form-card">
-        <h3 class="form-card-title">Pickup Details</h3>
-        <div class="form-row">
-          <div class="form-group">
+      <!-- Upsell: add a drink (only shown on sandwich cards) -->
+      <div class="upsell-section" id="upsell-section" style="display:none;">
+        <p>Add a drink?</p>
+        <div class="upsell-chips">
+          <button class="upsell-chip" data-id="drip-coffee" data-name="Drip Coffee" data-cents="300">Drip Coffee +$3</button>
+          <button class="upsell-chip" data-id="latte" data-name="Latte" data-cents="550">Latte +$5.50</button>
+          <button class="upsell-chip" data-id="chai-latte" data-name="Chai Latte" data-cents="550">Chai Latte +$5.50</button>
+          <button class="upsell-chip" data-id="espresso" data-name="Espresso" data-cents="300">Espresso +$3</button>
+        </div>
+      </div>
+
+      <button class="modal-add-btn" id="modal-add-btn">Add to Order</button>
+    </div>
+  </div>
+
+  <!-- ── Cart Drawer ── -->
+  <div class="cart-overlay" id="cart-overlay"></div>
+  <div class="cart-drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-label="Your cart">
+    <div class="cart-header">
+      <h3>Your Order</h3>
+      <button class="cart-close" id="cart-close" aria-label="Close cart">✕</button>
+    </div>
+
+    <div class="cart-items" id="cart-items">
+      <p class="cart-empty">Nothing here yet — add something!</p>
+    </div>
+
+    <div class="cart-footer" id="cart-footer" style="display:none;">
+      <div class="cart-total">
+        <span>Subtotal</span>
+        <span id="cart-total">$0.00</span>
+      </div>
+
+      <div class="pickup-form">
+        <div class="pickup-row">
+          <div>
             <label for="pickup-day">Pickup Day *</label>
-            <select id="pickup-day" name="pickup-day" required>
-              <option value="">— Select a day —</option>
-              <option value="saturday">Saturday</option>
-              <option value="sunday">Sunday</option>
+            <select id="pickup-day">
+              <option value="">— Day —</option>
+              <option value="Saturday">Saturday</option>
+              <option value="Sunday">Sunday</option>
             </select>
           </div>
-          <div class="form-group">
+          <div>
             <label for="pickup-time">Pickup Time *</label>
-            <select id="pickup-time" name="pickup-time" required disabled>
-              <option value="">— Select a day first —</option>
+            <select id="pickup-time" disabled>
+              <option value="">— Time —</option>
             </select>
           </div>
         </div>
+        <label for="cart-notes">Notes / Allergies</label>
+        <textarea id="cart-notes" rows="2" placeholder="Any substitutions or allergy info..."></textarea>
       </div>
 
-      <!-- Bagel Sandwiches -->
-      <div class="form-card">
-        <h3 class="form-card-title">Bagel Sandwiches</h3>
-        <p style="font-size:0.875rem;color:var(--mid);margin-bottom:1.5rem;">Set quantity to 0 for items you don't want. Minimum order: 1 item.</p>
-
-        <table class="order-items">
-          <thead>
-            <tr>
-              <th>Item</th>
-              <th>Description</th>
-              <th style="text-align:center;">Qty</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Plain Jane</strong> <span style="color:var(--orange);font-weight:600;">$7.50</span></td>
-              <td><span>Bacon · Egg · Cheese</span></td>
-              <td class="qty-cell">
-                <div class="qty-ctrl">
-                  <button type="button" class="qty-btn" data-dir="down">−</button>
-                  <span class="qty-num">0</span>
-                  <button type="button" class="qty-btn" data-dir="up">+</button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td><strong>The Dilly</strong> <span style="color:var(--orange);font-weight:600;">$8.50</span></td>
-              <td><span>Bacon · Egg · Cheese · Dill Cream Cheese · Hot Honey</span></td>
-              <td class="qty-cell">
-                <div class="qty-ctrl">
-                  <button type="button" class="qty-btn" data-dir="down">−</button>
-                  <span class="qty-num">0</span>
-                  <button type="button" class="qty-btn" data-dir="up">+</button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <!-- Bagel Type Preference -->
-        <div class="form-group" style="margin-top:1.5rem;">
-          <label for="bagel-type">Bagel Type *</label>
-          <select id="bagel-type" name="bagel-type" required>
-            <option value="">— Choose your bagel —</option>
-            <option value="plain">Plain</option>
-            <option value="everything">Everything</option>
-            <option value="asiago">Asiago</option>
-            <option value="jalapeno-cheddar">Jalapeño Cheddar</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Drinks -->
-      <div class="form-card">
-        <h3 class="form-card-title">Add Drinks</h3>
-        <table class="order-items">
-          <thead>
-            <tr>
-              <th>Drink</th>
-              <th>Notes</th>
-              <th style="text-align:center;">Qty</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Drip Coffee</strong></td>
-              <td><span>Regular or dark roast</span></td>
-              <td class="qty-cell">
-                <div class="qty-ctrl">
-                  <button type="button" class="qty-btn" data-dir="down">−</button>
-                  <span class="qty-num">0</span>
-                  <button type="button" class="qty-btn" data-dir="up">+</button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Latte</strong></td>
-              <td><span>Hot or iced</span></td>
-              <td class="qty-cell">
-                <div class="qty-ctrl">
-                  <button type="button" class="qty-btn" data-dir="down">−</button>
-                  <span class="qty-num">0</span>
-                  <button type="button" class="qty-btn" data-dir="up">+</button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Chai Latte</strong></td>
-              <td><span>Hot or iced</span></td>
-              <td class="qty-cell">
-                <div class="qty-ctrl">
-                  <button type="button" class="qty-btn" data-dir="down">−</button>
-                  <span class="qty-num">0</span>
-                  <button type="button" class="qty-btn" data-dir="up">+</button>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td><strong>Espresso</strong></td>
-              <td><span>Single or double shot</span></td>
-              <td class="qty-cell">
-                <div class="qty-ctrl">
-                  <button type="button" class="qty-btn" data-dir="down">−</button>
-                  <span class="qty-num">0</span>
-                  <button type="button" class="qty-btn" data-dir="up">+</button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Special Requests -->
-      <div class="form-card">
-        <h3 class="form-card-title">Special Requests</h3>
-        <div class="form-group form-row solo">
-          <label for="notes">Notes or Allergies</label>
-          <textarea id="notes" name="notes" placeholder="Any allergies, substitutions, or notes for your order..."></textarea>
-        </div>
-      </div>
-
-      <button type="submit" class="btn btn-primary btn-submit">Place My Order →</button>
-
-    </form>
-
-    <!-- Success State -->
-    <div id="order-success" class="order-success">
-      <div class="success-icon">🎉</div>
-      <h2>Order Received!</h2>
-      <p>Thanks for ordering from AspenOak. We'll have everything fresh and ready for your pickup.<br><br>
-      Questions? Give us a call or stop by at <strong>633 N 8th Street, Sheboygan</strong>.<br>
-      See you soon!</p>
+      <button class="checkout-btn" id="checkout-btn">
+        <span class="btn-text">Continue to Checkout →</span>
+        <span class="spinner">Processing…</span>
+      </button>
     </div>
-
-  </div><!-- /.order-wrapper -->
+  </div>
 
   <!-- ─── Footer ─── -->
   <footer>
@@ -244,9 +531,9 @@
       <div class="footer-col">
         <h5>Hours</h5>
         <ul>
-          <li><a>Mon–Fri: 8:00 AM – 5:00 PM</a></li>
-          <li><a>Saturday: 8:00 AM – 3:00 PM</a></li>
-          <li><a>Sunday: 8:00 AM – 12:00 PM</a></li>
+          <li>Mon–Fri: 8:00 AM – 5:00 PM</li>
+          <li>Saturday: 8:00 AM – 3:00 PM</li>
+          <li>Sunday: 8:00 AM – 12:00 PM</li>
         </ul>
       </div>
     </div>
@@ -258,6 +545,241 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    const SAT_TIMES = ['8:00 AM','8:30 AM','9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM','1:00 PM','1:30 PM','2:00 PM','2:30 PM'];
+    const SUN_TIMES = ['8:00 AM','8:30 AM','9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM'];
+
+    // ── Cart state ──
+    let cart = []; // [{ id, name, desc, cents, qty, bagel, note }]
+    let pendingUpsells = []; // chip ids selected in modal
+
+    // ── Active modal item ──
+    let activeItem = null;
+
+    // ── DOM refs ──
+    const modalOverlay  = document.getElementById('modal-overlay');
+    const modalName     = document.getElementById('modal-name');
+    const modalDesc     = document.getElementById('modal-desc');
+    const modalPrice    = document.getElementById('modal-price');
+    const modalBagel    = document.getElementById('modal-bagel');
+    const bagelSection  = document.getElementById('bagel-section');
+    const upsellSection = document.getElementById('upsell-section');
+    const modalQty      = document.getElementById('modal-qty');
+    const modalAddBtn   = document.getElementById('modal-add-btn');
+    const cartDrawer    = document.getElementById('cart-drawer');
+    const cartOverlay   = document.getElementById('cart-overlay');
+    const cartItemsEl   = document.getElementById('cart-items');
+    const cartFooter    = document.getElementById('cart-footer');
+    const cartTotal     = document.getElementById('cart-total');
+    const cartCount     = document.getElementById('cart-count');
+    const pickupDay     = document.getElementById('pickup-day');
+    const pickupTime    = document.getElementById('pickup-time');
+    const checkoutBtn   = document.getElementById('checkout-btn');
+
+    // ── Open modal ──
+    document.querySelectorAll('.product-card').forEach(card => {
+      card.addEventListener('click', () => openModal(card.dataset));
+    });
+
+    function openModal(data) {
+      activeItem = data;
+      modalName.textContent  = data.name;
+      modalDesc.textContent  = data.desc;
+      modalPrice.textContent = `$${data.price}`;
+      modalQty.textContent   = '1';
+      pendingUpsells = [];
+
+      const isSandwich = data.bagel === 'true';
+      bagelSection.style.display  = isSandwich ? '' : 'none';
+      upsellSection.style.display = isSandwich ? '' : 'none';
+      modalBagel.value = '';
+
+      document.querySelectorAll('.upsell-chip').forEach(c => c.classList.remove('selected'));
+      modalOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    document.getElementById('modal-close').addEventListener('click', closeModal);
+    modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) closeModal(); });
+
+    function closeModal() {
+      modalOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+      activeItem = null;
+    }
+
+    // ── Modal qty ──
+    document.getElementById('modal-qty-down').addEventListener('click', () => {
+      const v = parseInt(modalQty.textContent);
+      if (v > 1) modalQty.textContent = v - 1;
+    });
+    document.getElementById('modal-qty-up').addEventListener('click', () => {
+      const v = parseInt(modalQty.textContent);
+      if (v < 10) modalQty.textContent = v + 1;
+    });
+
+    // ── Upsell chips ──
+    document.querySelectorAll('.upsell-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        chip.classList.toggle('selected');
+        const id = chip.dataset.id;
+        if (chip.classList.contains('selected')) {
+          pendingUpsells.push({ id, name: chip.dataset.name, cents: parseInt(chip.dataset.cents) });
+        } else {
+          pendingUpsells = pendingUpsells.filter(u => u.id !== id);
+        }
+      });
+    });
+
+    // ── Add to cart ──
+    modalAddBtn.addEventListener('click', () => {
+      if (!activeItem) return;
+      const isSandwich = activeItem.bagel === 'true';
+      if (isSandwich && !modalBagel.value) {
+        modalBagel.style.borderColor = 'var(--orange)';
+        modalBagel.focus();
+        return;
+      }
+      modalBagel.style.borderColor = '';
+
+      const qty = parseInt(modalQty.textContent);
+      addToCart({
+        id:    activeItem.id,
+        name:  activeItem.name,
+        desc:  activeItem.desc,
+        cents: parseInt(activeItem.cents),
+        qty,
+        bagel: isSandwich ? modalBagel.value : null,
+      });
+
+      pendingUpsells.forEach(u => {
+        addToCart({ id: u.id, name: u.name, desc: '', cents: u.cents, qty: 1, bagel: null });
+      });
+
+      closeModal();
+      openCart();
+    });
+
+    function addToCart(item) {
+      const key = item.id + (item.bagel || '');
+      const existing = cart.find(c => c.id === item.id && c.bagel === item.bagel);
+      if (existing) {
+        existing.qty += item.qty;
+      } else {
+        cart.push({ ...item });
+      }
+      renderCart();
+    }
+
+    // ── Cart open/close ──
+    document.getElementById('cart-open-btn').addEventListener('click', openCart);
+    document.getElementById('cart-close').addEventListener('click', closeCart);
+    cartOverlay.addEventListener('click', closeCart);
+
+    function openCart() {
+      cartDrawer.classList.add('open');
+      cartOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeCart() {
+      cartDrawer.classList.remove('open');
+      cartOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // ── Render cart ──
+    function renderCart() {
+      const totalCents = cart.reduce((s, i) => s + i.cents * i.qty, 0);
+      const totalItems = cart.reduce((s, i) => s + i.qty, 0);
+
+      cartCount.textContent = totalItems;
+      cartCount.classList.toggle('visible', totalItems > 0);
+
+      if (cart.length === 0) {
+        cartItemsEl.innerHTML = '<p class="cart-empty">Nothing here yet — add something!</p>';
+        cartFooter.style.display = 'none';
+        return;
+      }
+
+      cartFooter.style.display = '';
+      cartTotal.textContent = `$${(totalCents / 100).toFixed(2)}`;
+
+      cartItemsEl.innerHTML = cart.map((item, i) => `
+        <div class="cart-item">
+          <div class="cart-item-info">
+            <p class="cart-item-name">${item.name}</p>
+            <p class="cart-item-meta">${item.bagel ? `${item.bagel} bagel` : item.desc}${item.qty > 1 ? ` × ${item.qty}` : ''}</p>
+          </div>
+          <div class="cart-item-right">
+            <span class="cart-item-price">$${((item.cents * item.qty) / 100).toFixed(2)}</span>
+            <button class="cart-item-remove" data-index="${i}">Remove</button>
+          </div>
+        </div>
+      `).join('');
+
+      cartItemsEl.querySelectorAll('.cart-item-remove').forEach(btn => {
+        btn.addEventListener('click', () => {
+          cart.splice(parseInt(btn.dataset.index), 1);
+          renderCart();
+        });
+      });
+    }
+
+    // ── Pickup time options ──
+    pickupDay.addEventListener('change', () => {
+      pickupTime.disabled = false;
+      pickupTime.innerHTML = '<option value="">— Choose a time —</option>';
+      const times = pickupDay.value === 'Saturday' ? SAT_TIMES : SUN_TIMES;
+      times.forEach(t => {
+        const o = document.createElement('option');
+        o.value = t; o.textContent = t;
+        pickupTime.appendChild(o);
+      });
+    });
+
+    // ── Checkout ──
+    checkoutBtn.addEventListener('click', async () => {
+      if (cart.length === 0) return;
+      if (!pickupDay.value || !pickupTime.value) {
+        pickupDay.style.borderColor   = pickupDay.value   ? '' : 'var(--orange)';
+        pickupTime.style.borderColor  = pickupTime.value  ? '' : 'var(--orange)';
+        return;
+      }
+
+      checkoutBtn.classList.add('loading');
+      checkoutBtn.disabled = true;
+
+      try {
+        const res = await fetch('/api/create-checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            cart: cart.map(i => ({ id: i.id, qty: i.qty })),
+            bagel: cart.find(i => i.bagel)?.bagel || null,
+            pickupDay: pickupDay.value,
+            pickupTime: pickupTime.value,
+            notes: document.getElementById('cart-notes').value,
+          }),
+        });
+
+        const data = await res.json();
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          alert('Something went wrong — please try again.');
+          checkoutBtn.classList.remove('loading');
+          checkoutBtn.disabled = false;
+        }
+      } catch {
+        alert('Something went wrong — please try again.');
+        checkoutBtn.classList.remove('loading');
+        checkoutBtn.disabled = false;
+      }
+    });
+
+    renderCart();
+  </script>
 
   <script src="js/main.js"></script>
 </body>
