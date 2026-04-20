@@ -87,7 +87,8 @@
     <!-- ─── Contact Form ─── -->
     <div class="contact-form-card">
       <h3>Send a Message</h3>
-      <form id="contact-form" novalidate>
+      <form id="contact-form" name="contact" data-netlify="true" novalidate>
+        <input type="hidden" name="form-name" value="contact">
         <div class="form-row">
           <div class="form-group">
             <label for="c-first">First Name *</label>

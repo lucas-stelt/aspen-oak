@@ -89,10 +89,38 @@ const contactForm = document.getElementById('contact-form');
 if (contactForm) {
   contactForm.addEventListener('submit', e => {
     e.preventDefault();
+
     const btn = contactForm.querySelector('.btn-submit');
-    btn.textContent = 'Message Sent!';
-    btn.style.background = 'var(--dark)';
+    const required = contactForm.querySelectorAll('[required]');
+    let valid = true;
+
+    required.forEach(field => {
+      field.style.outline = '';
+      if (!field.value.trim()) {
+        field.style.outline = '2px solid #c0392b';
+        valid = false;
+      }
+    });
+
+    if (!valid) return;
+
+    btn.textContent = 'Sending…';
     btn.disabled = true;
-    setTimeout(() => contactForm.reset(), 300);
+
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(new FormData(contactForm)).toString()
+    })
+      .then(() => {
+        btn.textContent = 'Message Sent!';
+        btn.style.background = 'var(--dark)';
+        setTimeout(() => contactForm.reset(), 400);
+      })
+      .catch(() => {
+        btn.textContent = 'Send Message →';
+        btn.disabled = false;
+        alert('Something went wrong. Please try again or email us directly.');
+      });
   });
 }
