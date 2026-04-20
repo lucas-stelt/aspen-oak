@@ -19,42 +19,6 @@ document.querySelectorAll('.nav-links a').forEach(link => {
   if (linkPath === currentFile) link.classList.add('active');
 });
 
-/* ─── Pickup Time Slots ─── */
-const timeSlots = {
-  saturday: [
-    '8:00 AM','8:30 AM','9:00 AM','9:30 AM','10:00 AM',
-    '10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM',
-    '1:00 PM','1:30 PM','2:00 PM','2:30 PM'
-  ],
-  sunday: [
-    '8:00 AM','8:30 AM','9:00 AM','9:30 AM',
-    '10:00 AM','10:30 AM','11:00 AM','11:30 AM'
-  ]
-};
-
-const pickupDay  = document.getElementById('pickup-day');
-const pickupTime = document.getElementById('pickup-time');
-
-function populateTimes() {
-  if (!pickupDay || !pickupTime) return;
-  const day = pickupDay.value;
-  pickupTime.innerHTML = '<option value="">— Select a time —</option>';
-  pickupTime.disabled = !day;
-  if (timeSlots[day]) {
-    timeSlots[day].forEach(t => {
-      const opt = document.createElement('option');
-      opt.value = t;
-      opt.textContent = t;
-      pickupTime.appendChild(opt);
-    });
-  }
-}
-
-if (pickupDay) {
-  pickupDay.addEventListener('change', populateTimes);
-  populateTimes();
-}
-
 /* ─── Quantity Controls ─── */
 document.querySelectorAll('.qty-btn').forEach(btn => {
   btn.addEventListener('click', () => {
