@@ -29,7 +29,7 @@ aspen-oak/
 │   └── assets/                 ← all images go here
 ├── netlify/
 │   └── functions/
-│       └── create-checkout.js  ← calls Square Payment Links API, validates cart server-side
+│       └── create-checkout.mjs  ← Netlify V2 function, serves at /api/create-checkout via config.path
 ├── proposal/                   ← client-facing documents
 ├── docs/                       ← project notes, maintenance log
 ├── automation/                 ← future: auto-update pipeline scripts
@@ -59,13 +59,14 @@ aspen-oak/
 
 ## Square Integration
 - **Approach:** Custom cart UI on `order.html` → Netlify Function → Square Payment Links API → redirect to Square hosted checkout
-- **Function:** `netlify/functions/create-checkout.js` — validates items server-side, hardcoded prices, calls `POST /v2/online-checkout/payment-links`
+- **Function:** `netlify/functions/create-checkout.mjs` — Netlify V2 format, validates items server-side, hardcoded prices, calls `POST /v2/online-checkout/payment-links`, serves at `/api/create-checkout` via `export const config`
 - **Netlify env vars required:** `SQUARE_ACCESS_TOKEN`, `SQUARE_LOCATION_ID`, `SQUARE_ENV` (`sandbox` or `production`)
 - **Local env vars:** same keys in `.env` file (gitignored)
-- **Status:** Deployed to production, sandbox credentials set in Netlify — end-to-end test not yet completed (checkout returned error, debugging in progress)
-- **Next session:** Run `netlify link --name <site-name>` then `netlify dev` to test locally and read Square error from terminal logs
+- **Status:** ✅ Sandbox end-to-end test PASSED — cart → checkout → Square payment page flow is working
+- **Sandbox location ID:** `LDCGF33Z8G3QZ` (already set in Netlify env vars)
 - **Test card (sandbox):** `4111 1111 1111 1111`, any future expiry, any CVV
-- **Go-live checklist:** Swap Netlify env vars to production credentials, change `SQUARE_ENV=production`, redeploy
+- **Go-live checklist:** Swap `SQUARE_ACCESS_TOKEN` and `SQUARE_LOCATION_ID` in Netlify env vars to production values, set `SQUARE_ENV=production`, trigger redeploy
+- **Local dev note:** `netlify dev` crashes on this machine due to Deno EBUSY (corporate AV blocks exe). Use `netlify functions:serve` for local function testing instead.
 
 ## Development Workflow
 1. Edit files in `site/` or `netlify/functions/`
@@ -77,7 +78,7 @@ aspen-oak/
 - [x] Connect GitHub repo to Netlify (auto-deploy active)
 - [x] Purchase and configure custom domain (aspenoakhome.com — live)
 - [x] Square ordering UI built and deployed (`order.html` + Netlify function)
-- [ ] Debug and complete Square sandbox end-to-end test
+- [x] Debug and complete Square sandbox end-to-end test
 - [ ] Swap to Square production credentials and go live
 - [ ] Automated content pipeline (iCloud shared drive → GitHub → Netlify)
 
@@ -85,5 +86,6 @@ aspen-oak/
 - All image files must be added to `site/assets/` — never use absolute paths
 - Menu items and prices change frequently — always verify with client before updating
 - The Easter menu section in `menu.html` is seasonal and should be removed/updated after the holiday
-- Item prices in `create-checkout.js` `ITEMS` map must stay in sync with `order.html` display prices
+- Item prices in `create-checkout.mjs` `ITEMS` map must stay in sync with `order.html` display prices
+- taste-skill is installed (8 skills via `npx skills add`) — restart Claude Code to use them
 - Never commit `.env` — credentials go in Netlify environment variables for production
