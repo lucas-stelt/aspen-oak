@@ -83,6 +83,12 @@ if (navEl) {
   }, { passive: true });
 }
 
+/* ─── Auto-update copyright year ─── */
+const footerYear = document.querySelector('.footer-bottom span');
+if (footerYear) {
+  footerYear.textContent = footerYear.textContent.replace(/\d{4}/, new Date().getFullYear());
+}
+
 /* ─── Contact Form Submission ─── */
 const contactForm = document.getElementById('contact-form');
 
