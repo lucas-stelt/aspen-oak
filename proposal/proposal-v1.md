@@ -1,6 +1,6 @@
 # Website Proposal — AspenOak Bakery
 **Prepared by:** Lucas Steltenpohl
-**Date:** April 15, 2025
+**Date:** April 20, 2026
 **For:** AspenOak — 633 N 8th Street, Sheboygan, WI
 
 ---
@@ -15,23 +15,36 @@ I've built out a full multi-page website for AspenOak including:
 
 - **Homepage** — hero section, hours, marquee, photo collage, reviews, and weekend order CTA
 - **Menu page** — all current offerings organized by section (bagels, sweets, coffee, refreshers, pantry, seasonal specials)
-- **Order Online page** — weekend bagel sandwich order form with item quantities and pickup time selection
+- **Order Online page** — weekend bagel sandwich ordering with Square checkout integration
 - **About page** — brand story and values
 - **Contact page** — contact form, hours, address, and social links
+- **Instagram feed** — live @AspenOakHome posts embedded directly on the site
 
 The site is mobile-friendly, fast-loading, and reflects AspenOak's brand look and feel.
 
 ---
 
-## One-Time Setup Fee — $500
+## One-Time Setup Fee — $750
 
 This covers everything built so far plus getting the site fully live:
 
 - All pages and design work completed to date
-- Connecting the GitHub repo to Netlify for automatic deploys
-- Purchasing and configuring your custom domain (you'll own the domain in your name)
-- Pointing DNS so the domain resolves to the live site
-- Square online ordering embed integrated into the Order page
+- Square online ordering integrated into the Order page
+- Instagram feed connected and embedded
+- Connecting the site to Netlify for automatic deploys
+- Custom domain (aspenoakhome.com) purchased and configured — owned in your name
+- DNS pointed and site live at your domain
+
+---
+
+## Square Payroll Setup — $175
+
+One-time fee to get your payroll up and running in Square:
+
+- Configure Square Payroll for your 3 employees
+- Set up pay schedules, tax withholding, and direct deposit
+- Hands-on walkthrough so you know exactly how to run payroll each cycle
+- Available for follow-up questions after setup
 
 ---
 
@@ -52,19 +65,23 @@ You send me the content (photos, text, changes) and I handle the rest, usually w
 ## Domain & Hosting Costs
 
 - **Hosting (Netlify):** Free — no monthly charge
-- **Domain:** ~$12–15/year, registered in your name on Namecheap
-
-I'd recommend owning the domain yourself so it's always yours regardless of what happens down the road. I'll handle the technical setup.
+- **Domain (aspenoakhome.com):** ~$15/year, registered in your name
 
 ---
 
-## What I Need From You to Get Started
+## Summary
 
-1. Confirmation on the domain name you'd like (e.g. `aspenoakbakery.com`)
-2. Your preferred payment method (Venmo, PayPal, check, etc.)
-3. Any content changes you want before launch
+| Service | Cost |
+|---|---|
+| Website (one-time) | $750 |
+| Square Payroll Setup (one-time) | $175 |
+| Monthly Maintenance | $100/month |
+| Hosting | Free |
+| Domain renewal | ~$15/year |
+
+---
 
 Let me know if you have any questions — happy to chat through anything.
 
 **Lucas**
-LSteltenpohl@usautoforce.com
+steltenpohllucas@gmail.com | 715-347-4224
