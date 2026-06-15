@@ -8,3 +8,7 @@
 
 # Node
 node_modules/
+
+# iPhone photo originals — convert to web JPEG via automation/convert_heic.py, don't commit
+*.heic
+*.HEIC

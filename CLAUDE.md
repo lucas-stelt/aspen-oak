@@ -85,7 +85,10 @@ aspen-oak/
 ## Notes
 - All image files must be added to `site/assets/` — never use absolute paths
 - Menu items and prices change frequently — always verify with client before updating
-- The Easter menu section in `menu.html` is seasonal and should be removed/updated after the holiday
-- Item prices in `create-checkout.mjs` `ITEMS` map must stay in sync with `order.html` display prices
+- Remove/refresh any seasonal sections in `menu.html` after the holiday passes (e.g. the old Easter section, removed 2026-06-15)
+- Item prices in `create-checkout.mjs` `ITEMS` map must stay in sync with `order.html` display prices AND `menu.html`. Current sandwich prices: Plain Jane $8.50, The Dilly $9.50
+- `order.html` product cards drive the modal: `data-options` (pipe-separated) + `data-option-label` add a flavor/soda selector; `data-bagel="true"` adds the bagel selector + drink upsell and marks the item weekend-only. New orderable items must also be added to the `ITEMS` map (with a `variants` allow-list) in `create-checkout.mjs`
+- Bagel sandwiches are weekend-pickup-only, enforced both in `order.html` (day dropdown) and server-side in `create-checkout.mjs`
+- iPhone `.HEIC` photos: drop into `site/assets/`, add a name mapping in `automation/convert_heic.py`, run it to produce web `.jpg`. HEIC originals are gitignored (don't commit/deploy them)
 - taste-skill is installed (8 skills via `npx skills add`) — restart Claude Code to use them
 - Never commit `.env` — credentials go in Netlify environment variables for production

@@ -1,13 +1,34 @@
 const ALLOWED_ORIGIN = 'https://aspenoakhome.com';
 
+// Server-side price source of truth (cents). Display prices in order.html
+// and menu.html must stay in sync with these amounts.
+//   bagel:        true  -> accepts an `entry.bagel` choice, pickup is weekend-only
+//   variants:     list  -> accepts an `entry.variant` flavor/option from this set
 const ITEMS = {
-  'plain-jane':   { name: 'Plain Jane Bagel Sandwich',  amount: 750  },
-  'the-dilly':    { name: 'The Dilly Bagel Sandwich',   amount: 850  },
-  'drip-coffee':  { name: 'Drip Coffee',                amount: 300  },
-  'latte':        { name: 'Latte',                      amount: 550  },
-  'chai-latte':   { name: 'Chai Latte',                 amount: 550  },
-  'espresso':     { name: 'Espresso',                   amount: 300  },
+  'plain-jane':      { name: 'Plain Jane Bagel Sandwich', amount: 850, bagel: true },
+  'the-dilly':       { name: 'The Dilly Bagel Sandwich',  amount: 950, bagel: true },
+
+  'drip-coffee':     { name: 'Drip Coffee',  amount: 300 },
+  'espresso':        { name: 'Espresso',     amount: 300 },
+  'latte':           { name: 'Latte',        amount: 550 },
+  'chai-latte':      { name: 'Chai Latte',   amount: 550 },
+  'dirty-diet-coke': { name: 'Dirty Diet Coke', amount: 450, variants: ['Coke', 'Diet Coke'] },
+
+  'muffin':          { name: 'Muffin',       amount: 350, variants: ['Blueberry', 'Mixed Berry', 'Chocolate Chip', 'Banana', 'Lemon Poppyseed'] },
+  'pop-tart':        { name: 'Pop-Tart',     amount: 350, variants: ['Nutella', 'Strawberry', 'Blueberry'] },
+  'mm-cookie':       { name: 'M&M Sandwich Cookie', amount: 350 },
+  'bar':             { name: 'Bar',          amount: 350, variants: ['7-Layer', 'Strawberry Crunch Cheesecake', 'Lemon Coconut Blondie', 'White Chocolate Macadamia Blondie'] },
+  'sugar-cookie-sm': { name: 'Sugar Cookie (Small)', amount: 100 },
+  'sugar-cookie-lg': { name: 'Sugar Cookie (Large)', amount: 200 },
+
+  'dirt-cup':        { name: 'Dirt Cake Cup', amount: 550, variants: ['Oreo Dirt Cake', 'Vanilla Oreo Dirt Cake', 'Circus Animal Cookie Cake', "S'mores"] },
+  'energy-bites':    { name: 'Energy Bites',  amount: 550, variants: ['M&M Bites', 'Date Chocolate Cherry Bites'] },
+  'overnight-oats':  { name: 'Triple Berry Overnight Oats', amount: 550 },
+  'chia-pudding':    { name: 'Blueberry Chia Pudding',      amount: 550 },
 };
+
+const ALLOWED_BAGELS = ['Plain', 'Everything', 'Asiago', 'Jalapeño Cheddar'];
+const WEEKEND_DAYS = ['Saturday', 'Sunday'];
 
 export default async (req) => {
   const origin = req.headers.get('origin') || '';
@@ -28,7 +49,7 @@ export default async (req) => {
     return new Response(JSON.stringify({ error: 'Invalid JSON' }), { status: 400 });
   }
 
-  const { cart, pickupDay, pickupTime, notes, bagel } = body;
+  const { cart, pickupDay, pickupTime, notes } = body;
 
   if (!Array.isArray(cart) || cart.length === 0) {
     return new Response(JSON.stringify({ error: 'Cart is empty' }), { status: 400 });
@@ -36,6 +57,8 @@ export default async (req) => {
 
   // Validate and build line items using server-side prices only
   const lineItems = [];
+  let hasWeekendItem = false;
+
   for (const entry of cart) {
     const item = ITEMS[entry.id];
     if (!item) {
@@ -47,8 +70,16 @@ export default async (req) => {
     }
 
     let itemName = item.name;
-    if (entry.id === 'plain-jane' || entry.id === 'the-dilly') {
-      if (bagel) itemName += ` (${bagel} bagel)`;
+
+    if (item.bagel) {
+      hasWeekendItem = true;
+      if (entry.bagel && ALLOWED_BAGELS.includes(entry.bagel)) {
+        itemName += ` (${entry.bagel} bagel)`;
+      }
+    }
+
+    if (item.variants && entry.variant && item.variants.includes(entry.variant)) {
+      itemName += ` — ${entry.variant}`;
     }
 
     lineItems.push({
@@ -58,6 +89,14 @@ export default async (req) => {
     });
   }
 
+  // Bagel sandwiches are weekend pickup only
+  if (hasWeekendItem && !WEEKEND_DAYS.includes(pickupDay)) {
+    return new Response(
+      JSON.stringify({ error: 'Bagel sandwiches are available for Saturday or Sunday pickup only.' }),
+      { status: 400 }
+    );
+  }
+
   const orderNote = [
     pickupDay && pickupTime ? `Pickup: ${pickupDay} at ${pickupTime}` : null,
     notes ? `Notes: ${notes}` : null,
@@ -65,9 +104,8 @@ export default async (req) => {
 
   const token = process.env.SQUARE_ACCESS_TOKEN;
   const locationId = process.env.SQUARE_LOCATION_ID;
-  const isSandbox = token?.startsWith('EAAAE') === false; // sandbox tokens start differently
 
-  const squareBase = token?.includes('sandbox') || process.env.SQUARE_ENV === 'sandbox'
+  const squareBase = process.env.SQUARE_ENV === 'sandbox'
     ? 'https://connect.squareupsandbox.com'
     : 'https://connect.squareup.com';
 
@@ -81,7 +119,6 @@ export default async (req) => {
     checkout_options: {
       redirect_url: `${ALLOWED_ORIGIN}/order-confirmed.html`,
     },
-    ...(orderNote && { pre_populated_data: { buyer_email_address: '' } }),
   };
 
   const squareRes = await fetch(`${squareBase}/v2/online-checkout/payment-links`, {
