@@ -14,6 +14,11 @@ Track all content updates here so you have a record of what changed and when.
 
 ## Log
 
+**2026-06-15 — Hero bagel photo enlarged**
+- Reworked hero photo cluster: bagel is now a large full-width square (shows the whole sandwich, no cropping); muffin + oats sit below
+- File: site/css/home.css
+- Note: curated Instagram "Follow along" section is parked on branch `insta-feed` (not deployed) — waiting on the @AspenOakHome login to set up an auto-updating widget (e.g. Behold)
+
 **2026-06-15 — Homepage photo refresh**
 - Hero: replaced single blob photo + floating photo with a 3-photo cluster (bagel, muffin, oats) that fills the column — less whitespace, higher-res shots
 - Collage: removed the refreshers image (moved to menu), expanded to a 9-photo wall with new shots (bagel cross-section feature, cookie sandwiches, pop-tarts, pudding cup, latte, stuffed bagels)
