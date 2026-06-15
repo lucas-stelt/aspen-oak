@@ -2,7 +2,7 @@ const ALLOWED_ORIGIN = 'https://aspenoakhome.com';
 
 // Server-side price source of truth (cents). Display prices in order.html
 // and menu.html must stay in sync with these amounts.
-//   bagel:        true  -> accepts an `entry.bagel` choice, pickup is weekend-only
+//   bagel:        true  -> accepts an `entry.bagel` choice (Plain/Everything/...)
 //   variants:     list  -> accepts an `entry.variant` flavor/option from this set
 const ITEMS = {
   'plain-jane':      { name: 'Plain Jane Bagel Sandwich', amount: 850, bagel: true },
@@ -28,7 +28,6 @@ const ITEMS = {
 };
 
 const ALLOWED_BAGELS = ['Plain', 'Everything', 'Asiago', 'Jalapeño Cheddar'];
-const WEEKEND_DAYS = ['Saturday', 'Sunday'];
 
 export default async (req) => {
   const origin = req.headers.get('origin') || '';
@@ -57,7 +56,6 @@ export default async (req) => {
 
   // Validate and build line items using server-side prices only
   const lineItems = [];
-  let hasWeekendItem = false;
 
   for (const entry of cart) {
     const item = ITEMS[entry.id];
@@ -71,11 +69,8 @@ export default async (req) => {
 
     let itemName = item.name;
 
-    if (item.bagel) {
-      hasWeekendItem = true;
-      if (entry.bagel && ALLOWED_BAGELS.includes(entry.bagel)) {
-        itemName += ` (${entry.bagel} bagel)`;
-      }
+    if (item.bagel && entry.bagel && ALLOWED_BAGELS.includes(entry.bagel)) {
+      itemName += ` (${entry.bagel} bagel)`;
     }
 
     if (item.variants && entry.variant && item.variants.includes(entry.variant)) {
@@ -87,14 +82,6 @@ export default async (req) => {
       quantity: String(qty),
       base_price_money: { amount: item.amount, currency: 'USD' },
     });
-  }
-
-  // Bagel sandwiches are weekend pickup only
-  if (hasWeekendItem && !WEEKEND_DAYS.includes(pickupDay)) {
-    return new Response(
-      JSON.stringify({ error: 'Bagel sandwiches are available for Saturday or Sunday pickup only.' }),
-      { status: 400 }
-    );
   }
 
   const orderNote = [

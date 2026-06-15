@@ -14,6 +14,13 @@ Track all content updates here so you have a record of what changed and when.
 
 ## Log
 
+**2026-06-15 — Bagels available everyday + photos on order page**
+- Bagel sandwiches no longer weekend-only: removed the weekend pickup guard (order.html day logic + create-checkout.mjs server check); pickup is now any open day for all items
+- Updated weekend-only copy across order, menu, home, and contact pages
+- Order page product cards now show photos (JS injects a media tile per card from a MEDIA map; emoji placeholder for items without a photo yet — bar, energy bites, chia, drip/espresso/chai, dirty diet coke)
+- Updated tests: test_order.py (everyday pickup + photo injection), test_checkout.mjs (weekday sandwich now 200) — both passing
+- Files: site/order.html, site/menu.html, site/index.html, site/contact.html, netlify/functions/create-checkout.mjs, automation/test_*
+
 **2026-06-15 — Hero bagel photo enlarged**
 - Reworked hero photo cluster: bagel is now a large full-width square (shows the whole sandwich, no cropping); muffin + oats sit below
 - File: site/css/home.css

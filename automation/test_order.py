@@ -28,6 +28,11 @@ def run():
 
         pg.goto(URL)
 
+        # 0) Product photos injected (real photo + emoji placeholder fallback) -
+        assert pg.get_attribute('.product-card[data-id="muffin"] .product-card-media img', "src"), "muffin should get a photo"
+        assert pg.query_selector('.product-card[data-id="drip-coffee"] .product-card-media.ph'), "drip coffee should get a placeholder tile"
+        assert pg.query_selector("#pickup-hint") is None, "weekend hint element should be gone"
+
         # 1) Add a Muffin (flavor variant) -------------------------------------
         pg.click('.product-card[data-id="muffin"]')
         assert pg.is_visible("#option-section"), "option selector should show for muffin"
@@ -37,7 +42,7 @@ def run():
         assert "Chocolate Chip" in pg.inner_text("#cart-items"), "variant should appear in cart"
         pg.click("#cart-close")  # cart opens after add; close before next product
 
-        # 2) Add a Plain Jane (bagel) — should restrict pickup to weekend -------
+        # 2) Add a Plain Jane (bagel) — now available any open day -------------
         pg.click('.product-card[data-id="plain-jane"]')
         assert "Bagel type" in pg.inner_text("#option-label"), "sandwich label should be Bagel type"
         pg.select_option("#modal-option", "Everything")
@@ -46,11 +51,11 @@ def run():
         pg.click("#modal-add-btn")
 
         day_opts = pg.eval_on_selector_all("#pickup-day option", "els => els.map(e => e.value).filter(Boolean)")
-        assert day_opts == ["Saturday", "Sunday"], f"sandwich should force weekend days, got {day_opts}"
-        assert pg.is_visible("#pickup-hint"), "weekend hint should show"
+        assert day_opts == ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], \
+            f"all open days should be available even with a sandwich, got {day_opts}"
 
-        # 3) Choose pickup + checkout -----------------------------------------
-        pg.select_option("#pickup-day", "Saturday")
+        # 3) Choose a WEEKDAY pickup + checkout (proves bagels aren't weekend-only) -
+        pg.select_option("#pickup-day", "Wednesday")
         pg.select_option("#pickup-time", "9:00 AM")
         pg.click("#checkout-btn")
         pg.wait_for_function("() => window.location.href.includes('checkout-stub')", timeout=5000)
@@ -64,7 +69,7 @@ def run():
     assert items["muffin"]["bagel"] is None
     assert items["plain-jane"]["bagel"] == "Everything", items["plain-jane"]
     assert items["plain-jane"]["variant"] is None
-    assert payload["pickupDay"] == "Saturday" and payload["pickupTime"] == "9:00 AM"
+    assert payload["pickupDay"] == "Wednesday" and payload["pickupTime"] == "9:00 AM"
     print("PAYLOAD:", json.dumps(payload))
     print("ALL ASSERTIONS PASSED")
 
