@@ -311,6 +311,35 @@
     .checkout-btn .spinner { display: none; }
     .checkout-btn.loading .btn-text { display: none; }
     .checkout-btn.loading .spinner { display: inline; }
+
+    .section-tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--orange);
+      background: #fff3eb;
+      border-radius: 999px;
+      padding: 0.2rem 0.7rem;
+      margin-left: 0.6rem;
+      vertical-align: middle;
+    }
+    .pickup-hint {
+      font-size: 0.78rem;
+      color: var(--orange);
+      background: #fff8f0;
+      border-radius: 8px;
+      padding: 0.5rem 0.7rem;
+      margin-bottom: 0.75rem;
+    }
+    .checkout-error {
+      font-size: 0.825rem;
+      color: #c0392b;
+      background: #fdecea;
+      border-radius: 8px;
+      padding: 0.6rem 0.75rem;
+      margin-bottom: 0.75rem;
+    }
   </style>
 </head>
 <body>
@@ -334,9 +363,9 @@
   </nav>
 
   <div class="order-hero">
-    <p class="section-label">Weekend pickup</p>
+    <p class="section-label">Order ahead for pickup</p>
     <h1>Order Online</h1>
-    <p>Fresh bagel sandwiches ready when you arrive — no waiting in line.</p>
+    <p>Bakery treats, coffee, and weekend bagel sandwiches — ready when you arrive.</p>
   </div>
 
   <div class="order-page">
@@ -344,30 +373,136 @@
     <div class="weekend-note">
       <div class="weekend-note-icon">🥯</div>
       <div>
-        <h3>Weekend Orders Only</h3>
-        <p>Bagel sandwich orders are available for <strong>Saturday (8 AM – 3 PM)</strong> and <strong>Sunday (8 AM – 12 PM)</strong> pickup. Walk-ins always welcome too.</p>
+        <h3>A note on pickup</h3>
+        <p>Most items are ready any day we're open. <strong>Bagel sandwiches are weekend-only</strong> — pick up Saturday (8 AM–3 PM) or Sunday (8 AM–12 PM). Choose your day and time at checkout.</p>
       </div>
     </div>
 
     <!-- Bagel Sandwiches -->
     <div class="product-section">
-      <div class="product-section-title">Bagel Sandwiches</div>
+      <div class="product-section-title">Bagel Sandwiches <span class="section-tag">Weekend pickup</span></div>
       <div class="product-grid">
 
-        <div class="product-card" data-id="plain-jane" data-name="Plain Jane" data-desc="Bacon · Egg · Cheese" data-price="7.50" data-cents="750" data-bagel="true">
+        <div class="product-card" data-id="plain-jane" data-name="Plain Jane" data-desc="Bacon · Egg · Cheese" data-price="8.50" data-cents="850" data-bagel="true" data-option-label="Bagel type" data-options="Plain|Everything|Asiago|Jalapeño Cheddar">
           <h4>Plain Jane</h4>
           <p>Bacon · Egg · Cheese</p>
           <div class="product-card-footer">
-            <span class="product-price">$7.50</span>
+            <span class="product-price">$8.50</span>
             <button class="add-btn">+ Add</button>
           </div>
         </div>
 
-        <div class="product-card" data-id="the-dilly" data-name="The Dilly" data-desc="Bacon · Egg · Cheese · Dill Cream Cheese · Hot Honey" data-price="8.50" data-cents="850" data-bagel="true">
+        <div class="product-card" data-id="the-dilly" data-name="The Dilly" data-desc="Bacon · Egg · Cheese · Dill Cream Cheese · Hot Honey" data-price="9.50" data-cents="950" data-bagel="true" data-option-label="Bagel type" data-options="Plain|Everything|Asiago|Jalapeño Cheddar">
           <h4>The Dilly</h4>
           <p>Bacon · Egg · Cheese · Dill Cream Cheese · Hot Honey</p>
           <div class="product-card-footer">
-            <span class="product-price">$8.50</span>
+            <span class="product-price">$9.50</span>
+            <button class="add-btn">+ Add</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Bakery -->
+    <div class="product-section">
+      <div class="product-section-title">Bakery</div>
+      <div class="product-grid">
+
+        <div class="product-card" data-id="muffin" data-name="Muffin" data-desc="Baked fresh daily" data-price="3.50" data-cents="350" data-option-label="Flavor" data-options="Blueberry|Mixed Berry|Chocolate Chip|Banana|Lemon Poppyseed">
+          <h4>Muffin</h4>
+          <p>Five flavors, baked fresh daily</p>
+          <div class="product-card-footer">
+            <span class="product-price">$3.50</span>
+            <button class="add-btn">+ Add</button>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="pop-tart" data-name="Pop-Tart" data-desc="Flaky, frosted, house-made" data-price="3.50" data-cents="350" data-option-label="Flavor" data-options="Nutella|Strawberry|Blueberry">
+          <h4>Pop-Tart</h4>
+          <p>Flaky house pastry, topped &amp; sprinkled</p>
+          <div class="product-card-footer">
+            <span class="product-price">$3.50</span>
+            <button class="add-btn">+ Add</button>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="mm-cookie" data-name="M&amp;M Sandwich Cookie" data-desc="Sprinkle-rimmed buttercream" data-price="3.50" data-cents="350">
+          <h4>M&amp;M Sandwich Cookie</h4>
+          <p>Two cookies, sprinkle-rimmed buttercream</p>
+          <div class="product-card-footer">
+            <span class="product-price">$3.50</span>
+            <button class="add-btn">+ Add</button>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="bar" data-name="Bar" data-desc="Rotating house bars" data-price="3.50" data-cents="350" data-option-label="Flavor" data-options="7-Layer|Strawberry Crunch Cheesecake|Lemon Coconut Blondie|White Chocolate Macadamia Blondie">
+          <h4>Bars</h4>
+          <p>7-layer, blondies, strawberry crunch cheesecake</p>
+          <div class="product-card-footer">
+            <span class="product-price">$3.50</span>
+            <button class="add-btn">+ Add</button>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="sugar-cookie-sm" data-name="Sugar Cookie (Small)" data-desc="Decorated, soft-baked" data-price="1.00" data-cents="100">
+          <h4>Sugar Cookie — Small</h4>
+          <p>Decorated, soft-baked</p>
+          <div class="product-card-footer">
+            <span class="product-price">$1.00</span>
+            <button class="add-btn">+ Add</button>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="sugar-cookie-lg" data-name="Sugar Cookie (Large)" data-desc="Decorated, soft-baked" data-price="2.00" data-cents="200">
+          <h4>Sugar Cookie — Large</h4>
+          <p>Decorated, soft-baked</p>
+          <div class="product-card-footer">
+            <span class="product-price">$2.00</span>
+            <button class="add-btn">+ Add</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Pudding Cups & Wholesome -->
+    <div class="product-section">
+      <div class="product-section-title">Pudding Cups &amp; More</div>
+      <div class="product-grid">
+
+        <div class="product-card" data-id="dirt-cup" data-name="Dirt Cake Cup" data-desc="Layered pudding cup" data-price="5.50" data-cents="550" data-option-label="Flavor" data-options="Oreo Dirt Cake|Vanilla Oreo Dirt Cake|Circus Animal Cookie Cake|S'mores">
+          <h4>Dirt Cake Cup</h4>
+          <p>Layered pudding cup — four flavors</p>
+          <div class="product-card-footer">
+            <span class="product-price">$5.50</span>
+            <button class="add-btn">+ Add</button>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="energy-bites" data-name="Energy Bites" data-desc="No-bake oat bites" data-price="5.50" data-cents="550" data-option-label="Flavor" data-options="M&amp;M Bites|Date Chocolate Cherry Bites">
+          <h4>Energy Bites</h4>
+          <p>No-bake oat bites, honey &amp; maple</p>
+          <div class="product-card-footer">
+            <span class="product-price">$5.50</span>
+            <button class="add-btn">+ Add</button>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="overnight-oats" data-name="Triple Berry Overnight Oats" data-desc="Oats, chia, triple berry" data-price="5.50" data-cents="550">
+          <h4>Triple Berry Overnight Oats</h4>
+          <p>Creamy overnight oats with chia &amp; berries</p>
+          <div class="product-card-footer">
+            <span class="product-price">$5.50</span>
+            <button class="add-btn">+ Add</button>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="chia-pudding" data-name="Blueberry Chia Pudding" data-desc="Creamy chia, blueberry" data-price="5.50" data-cents="550">
+          <h4>Blueberry Chia Pudding</h4>
+          <p>Creamy chia pudding layered with blueberry</p>
+          <div class="product-card-footer">
+            <span class="product-price">$5.50</span>
             <button class="add-btn">+ Add</button>
           </div>
         </div>
@@ -383,6 +518,15 @@
         <div class="product-card" data-id="drip-coffee" data-name="Drip Coffee" data-desc="Regular or dark roast" data-price="3.00" data-cents="300">
           <h4>Drip Coffee</h4>
           <p>Regular or dark roast</p>
+          <div class="product-card-footer">
+            <span class="product-price">$3.00</span>
+            <button class="add-btn">+ Add</button>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="espresso" data-name="Espresso" data-desc="Single or double shot" data-price="3.00" data-cents="300">
+          <h4>Espresso</h4>
+          <p>Single or double shot, pulled fresh</p>
           <div class="product-card-footer">
             <span class="product-price">$3.00</span>
             <button class="add-btn">+ Add</button>
@@ -407,11 +551,11 @@
           </div>
         </div>
 
-        <div class="product-card" data-id="espresso" data-name="Espresso" data-desc="Single or double shot" data-price="3.00" data-cents="300">
-          <h4>Espresso</h4>
-          <p>Single or double shot, pulled fresh</p>
+        <div class="product-card" data-id="dirty-diet-coke" data-name="Dirty Diet Coke" data-desc="2 shots espresso topped with soda · iced" data-price="4.50" data-cents="450" data-option-label="Soda" data-options="Coke|Diet Coke">
+          <h4>Dirty Diet Coke</h4>
+          <p>Two shots of espresso topped with soda · iced</p>
           <div class="product-card-footer">
-            <span class="product-price">$3.00</span>
+            <span class="product-price">$4.50</span>
             <button class="add-btn">+ Add</button>
           </div>
         </div>
@@ -429,15 +573,11 @@
       <p class="modal-desc" id="modal-desc"></p>
       <p class="modal-price" id="modal-price"></p>
 
-      <!-- Bagel type (sandwiches only) -->
-      <div class="modal-section" id="bagel-section" style="display:none;">
-        <label for="modal-bagel">Bagel Type *</label>
-        <select id="modal-bagel">
-          <option value="">— Choose your bagel —</option>
-          <option value="Plain">Plain</option>
-          <option value="Everything">Everything</option>
-          <option value="Asiago">Asiago</option>
-          <option value="Jalapeño Cheddar">Jalapeño Cheddar</option>
+      <!-- Option selector (bagel type / flavor / soda) -->
+      <div class="modal-section" id="option-section" style="display:none;">
+        <label for="modal-option" id="option-label">Choose an option *</label>
+        <select id="modal-option">
+          <option value="">— Choose —</option>
         </select>
       </div>
 
@@ -490,8 +630,6 @@
             <label for="pickup-day">Pickup Day *</label>
             <select id="pickup-day">
               <option value="">— Day —</option>
-              <option value="Saturday">Saturday</option>
-              <option value="Sunday">Sunday</option>
             </select>
           </div>
           <div>
@@ -501,9 +639,12 @@
             </select>
           </div>
         </div>
+        <p class="pickup-hint" id="pickup-hint" style="display:none;">🥯 Bagel sandwiches are weekend pickup only — choose Saturday or Sunday.</p>
         <label for="cart-notes">Notes / Allergies</label>
         <textarea id="cart-notes" rows="2" placeholder="Any substitutions or allergy info..."></textarea>
       </div>
+
+      <p class="checkout-error" id="checkout-error" role="alert" style="display:none;"></p>
 
       <button class="checkout-btn" id="checkout-btn">
         <span class="btn-text">Continue to Checkout →</span>
@@ -548,14 +689,33 @@
   </footer>
 
   <script>
-    const SAT_TIMES = ['8:00 AM','8:30 AM','9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','12:00 PM','12:30 PM','1:00 PM','1:30 PM','2:00 PM','2:30 PM'];
-    const SUN_TIMES = ['8:00 AM','8:30 AM','9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM'];
+    // ── Pickup hours (minutes from midnight). Last slot is 30 min before close. ──
+    const HOURS = {
+      Monday:    [480, 1020], Tuesday:  [480, 1020], Wednesday: [480, 1020],
+      Thursday:  [480, 1020], Friday:   [480, 1020],
+      Saturday:  [480, 900],
+      Sunday:    [480, 720],
+    };
+    const ALL_DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+    const WEEKEND_DAYS = ['Saturday','Sunday'];
 
-    // ── Cart state ──
-    let cart = []; // [{ id, name, desc, cents, qty, bagel, note }]
-    let pendingUpsells = []; // chip ids selected in modal
+    function fmtTime(mins) {
+      let h = Math.floor(mins / 60);
+      const m = mins % 60;
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      h = h % 12 || 12;
+      return `${h}:${String(m).padStart(2, '0')} ${ampm}`;
+    }
+    function slotsFor(day) {
+      const [start, close] = HOURS[day] || [];
+      const out = [];
+      for (let t = start; t <= close - 30; t += 30) out.push(fmtTime(t));
+      return out;
+    }
 
-    // ── Active modal item ──
+    // ── State ──
+    let cart = [];            // [{ id, name, desc, cents, qty, bagel, variant }]
+    let pendingUpsells = [];  // chip selections in modal
     let activeItem = null;
 
     // ── DOM refs ──
@@ -563,8 +723,9 @@
     const modalName     = document.getElementById('modal-name');
     const modalDesc     = document.getElementById('modal-desc');
     const modalPrice    = document.getElementById('modal-price');
-    const modalBagel    = document.getElementById('modal-bagel');
-    const bagelSection  = document.getElementById('bagel-section');
+    const optionSection = document.getElementById('option-section');
+    const optionLabel   = document.getElementById('option-label');
+    const modalOption   = document.getElementById('modal-option');
     const upsellSection = document.getElementById('upsell-section');
     const modalQty      = document.getElementById('modal-qty');
     const modalAddBtn   = document.getElementById('modal-add-btn');
@@ -576,7 +737,11 @@
     const cartCount     = document.getElementById('cart-count');
     const pickupDay     = document.getElementById('pickup-day');
     const pickupTime    = document.getElementById('pickup-time');
+    const pickupHint    = document.getElementById('pickup-hint');
+    const checkoutError = document.getElementById('checkout-error');
     const checkoutBtn   = document.getElementById('checkout-btn');
+
+    const cartHasSandwich = () => cart.some(i => i.id === 'plain-jane' || i.id === 'the-dilly');
 
     // ── Open modal ──
     document.querySelectorAll('.product-card').forEach(card => {
@@ -591,12 +756,27 @@
       modalQty.textContent   = '1';
       pendingUpsells = [];
 
-      const isSandwich = data.bagel === 'true';
-      bagelSection.style.display  = isSandwich ? '' : 'none';
-      upsellSection.style.display = isSandwich ? '' : 'none';
-      modalBagel.value = '';
+      // Build the option selector from the card's data-options (if any)
+      const hasOptions = !!data.options;
+      if (hasOptions) {
+        optionLabel.textContent = `${data.optionLabel || 'Choose an option'} *`;
+        modalOption.innerHTML = '<option value="">— Choose —</option>';
+        data.options.split('|').forEach(o => {
+          const opt = document.createElement('option');
+          opt.value = o;
+          opt.textContent = o;
+          modalOption.appendChild(opt);
+        });
+        modalOption.value = '';
+        modalOption.style.borderColor = '';
+      }
+      optionSection.style.display = hasOptions ? '' : 'none';
 
+      // Drink upsell only on bagel sandwiches
+      const isSandwich = data.bagel === 'true';
+      upsellSection.style.display = isSandwich ? '' : 'none';
       document.querySelectorAll('.upsell-chip').forEach(c => c.classList.remove('selected'));
+
       modalOverlay.classList.add('open');
       document.body.style.overflow = 'hidden';
     }
@@ -617,7 +797,7 @@
     });
     document.getElementById('modal-qty-up').addEventListener('click', () => {
       const v = parseInt(modalQty.textContent);
-      if (v < 10) modalQty.textContent = v + 1;
+      if (v < 20) modalQty.textContent = v + 1;
     });
 
     // ── Upsell chips ──
@@ -636,26 +816,29 @@
     // ── Add to cart ──
     modalAddBtn.addEventListener('click', () => {
       if (!activeItem) return;
-      const isSandwich = activeItem.bagel === 'true';
-      if (isSandwich && !modalBagel.value) {
-        modalBagel.style.borderColor = 'var(--orange)';
-        modalBagel.focus();
+      const hasOptions = !!activeItem.options;
+      if (hasOptions && !modalOption.value) {
+        modalOption.style.borderColor = 'var(--orange)';
+        modalOption.focus();
         return;
       }
-      modalBagel.style.borderColor = '';
 
+      const isSandwich = activeItem.bagel === 'true';
+      const choice = hasOptions ? modalOption.value : null;
       const qty = parseInt(modalQty.textContent);
+
       addToCart({
-        id:    activeItem.id,
-        name:  activeItem.name,
-        desc:  activeItem.desc,
-        cents: parseInt(activeItem.cents),
+        id:      activeItem.id,
+        name:    activeItem.name,
+        desc:    activeItem.desc,
+        cents:   parseInt(activeItem.cents),
         qty,
-        bagel: isSandwich ? modalBagel.value : null,
+        bagel:   isSandwich ? choice : null,
+        variant: (hasOptions && !isSandwich) ? choice : null,
       });
 
       pendingUpsells.forEach(u => {
-        addToCart({ id: u.id, name: u.name, desc: '', cents: u.cents, qty: 1, bagel: null });
+        addToCart({ id: u.id, name: u.name, desc: '', cents: u.cents, qty: 1, bagel: null, variant: null });
       });
 
       closeModal();
@@ -663,8 +846,7 @@
     });
 
     function addToCart(item) {
-      const key = item.id + (item.bagel || '');
-      const existing = cart.find(c => c.id === item.id && c.bagel === item.bagel);
+      const existing = cart.find(c => c.id === item.id && c.bagel === item.bagel && c.variant === item.variant);
       if (existing) {
         existing.qty += item.qty;
       } else {
@@ -706,18 +888,20 @@
       cartFooter.style.display = '';
       cartTotal.textContent = `$${(totalCents / 100).toFixed(2)}`;
 
-      cartItemsEl.innerHTML = cart.map((item, i) => `
+      cartItemsEl.innerHTML = cart.map((item, i) => {
+        const meta = item.bagel ? `${item.bagel} bagel` : (item.variant || item.desc);
+        return `
         <div class="cart-item">
           <div class="cart-item-info">
             <p class="cart-item-name">${item.name}</p>
-            <p class="cart-item-meta">${item.bagel ? `${item.bagel} bagel` : item.desc}${item.qty > 1 ? ` × ${item.qty}` : ''}</p>
+            <p class="cart-item-meta">${meta}${item.qty > 1 ? ` × ${item.qty}` : ''}</p>
           </div>
           <div class="cart-item-right">
             <span class="cart-item-price">$${((item.cents * item.qty) / 100).toFixed(2)}</span>
             <button class="cart-item-remove" data-index="${i}">Remove</button>
           </div>
-        </div>
-      `).join('');
+        </div>`;
+      }).join('');
 
       cartItemsEl.querySelectorAll('.cart-item-remove').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -725,14 +909,40 @@
           renderCart();
         });
       });
+
+      populateDays();
+    }
+
+    // ── Pickup day options (weekend-only when a sandwich is in the cart) ──
+    function populateDays() {
+      const allowed = cartHasSandwich() ? WEEKEND_DAYS : ALL_DAYS;
+      pickupHint.style.display = cartHasSandwich() ? '' : 'none';
+
+      const prev = pickupDay.value;
+      pickupDay.innerHTML = '<option value="">— Day —</option>';
+      allowed.forEach(d => {
+        const o = document.createElement('option');
+        o.value = d; o.textContent = d;
+        pickupDay.appendChild(o);
+      });
+
+      if (allowed.includes(prev)) {
+        pickupDay.value = prev;
+      } else {
+        pickupDay.value = '';
+        pickupTime.innerHTML = '<option value="">— Time —</option>';
+        pickupTime.disabled = true;
+      }
     }
 
     // ── Pickup time options ──
     pickupDay.addEventListener('change', () => {
-      pickupTime.disabled = false;
+      pickupDay.style.borderColor = '';
+      const day = pickupDay.value;
       pickupTime.innerHTML = '<option value="">— Choose a time —</option>';
-      const times = pickupDay.value === 'Saturday' ? SAT_TIMES : SUN_TIMES;
-      times.forEach(t => {
+      if (!day) { pickupTime.disabled = true; return; }
+      pickupTime.disabled = false;
+      slotsFor(day).forEach(t => {
         const o = document.createElement('option');
         o.value = t; o.textContent = t;
         pickupTime.appendChild(o);
@@ -742,9 +952,11 @@
     // ── Checkout ──
     checkoutBtn.addEventListener('click', async () => {
       if (cart.length === 0) return;
+      checkoutError.style.display = 'none';
+
       if (!pickupDay.value || !pickupTime.value) {
-        pickupDay.style.borderColor   = pickupDay.value   ? '' : 'var(--orange)';
-        pickupTime.style.borderColor  = pickupTime.value  ? '' : 'var(--orange)';
+        pickupDay.style.borderColor  = pickupDay.value  ? '' : 'var(--orange)';
+        pickupTime.style.borderColor = pickupTime.value ? '' : 'var(--orange)';
         return;
       }
 
@@ -756,8 +968,7 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            cart: cart.map(i => ({ id: i.id, qty: i.qty })),
-            bagel: cart.find(i => i.bagel)?.bagel || null,
+            cart: cart.map(i => ({ id: i.id, qty: i.qty, bagel: i.bagel || null, variant: i.variant || null })),
             pickupDay: pickupDay.value,
             pickupTime: pickupTime.value,
             notes: document.getElementById('cart-notes').value,
@@ -765,19 +976,22 @@
         });
 
         const data = await res.json();
-        if (data.url) {
+        if (res.ok && data.url) {
           window.location.href = data.url;
-        } else {
-          alert('Something went wrong — please try again.');
-          checkoutBtn.classList.remove('loading');
-          checkoutBtn.disabled = false;
+          return;
         }
+        showCheckoutError(data.error || 'Something went wrong — please try again.');
       } catch {
-        alert('Something went wrong — please try again.');
-        checkoutBtn.classList.remove('loading');
-        checkoutBtn.disabled = false;
+        showCheckoutError('Connection failed. Please try again.');
       }
     });
+
+    function showCheckoutError(msg) {
+      checkoutError.textContent = msg;
+      checkoutError.style.display = '';
+      checkoutBtn.classList.remove('loading');
+      checkoutBtn.disabled = false;
+    }
 
     renderCart();
   </script>

@@ -19,40 +19,6 @@ document.querySelectorAll('.nav-links a').forEach(link => {
   if (linkPath === currentFile) link.classList.add('active');
 });
 
-/* ─── Quantity Controls ─── */
-document.querySelectorAll('.qty-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const numEl = btn.closest('.qty-ctrl').querySelector('.qty-num');
-    let val = parseInt(numEl.textContent, 10);
-    if (btn.dataset.dir === 'up')   val = Math.min(val + 1, 12);
-    if (btn.dataset.dir === 'down') val = Math.max(val - 1, 0);
-    numEl.textContent = val;
-  });
-});
-
-/* ─── Order Form Submission ─── */
-const orderForm    = document.getElementById('order-form');
-const orderSuccess = document.getElementById('order-success');
-
-if (orderForm) {
-  orderForm.addEventListener('submit', e => {
-    e.preventDefault();
-
-    // Basic validation — at least one item ordered
-    const qtys = document.querySelectorAll('.qty-num');
-    const total = Array.from(qtys).reduce((sum, el) => sum + parseInt(el.textContent, 10), 0);
-    if (total === 0) {
-      alert('Please add at least one item to your order.');
-      return;
-    }
-
-    // Show success state
-    orderForm.style.display   = 'none';
-    orderSuccess.style.display = 'block';
-    orderSuccess.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-}
-
 /* ─── Scroll Reveal (Intersection Observer) ─── */
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
