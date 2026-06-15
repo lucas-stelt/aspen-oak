@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /order-confirmed.html
+
+Sitemap: https://aspenoakhome.com/sitemap.xml

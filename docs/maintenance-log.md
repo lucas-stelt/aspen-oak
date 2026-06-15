@@ -14,6 +14,15 @@ Track all content updates here so you have a record of what changed and when.
 
 ## Log
 
+**2026-06-15 — SEO bundle (local search groundwork)**
+- Added LocalBusiness ("Bakery") JSON-LD structured data to index.html (name, address, phone 920-946-8880, hours, socials)
+- Added sitemap.xml + robots.txt
+- Added Open Graph/Twitter share tags + canonical URLs to all pages; order-confirmed set to noindex
+- Added phone number to homepage hours strip + contact page (NAP)
+- New `docs/marketing-setup.md` — checklist for Google Business Profile, Search Console, Instagram auto-feed, NAP
+- ⚠️ ZIP assumed 53081 (confirm with client); Google Search Console verification still needs the client's token
+- Files: all site/*.html, site/sitemap.xml, site/robots.txt, docs/marketing-setup.md
+
 **2026-06-15 — Bagels available everyday + photos on order page**
 - Bagel sandwiches no longer weekend-only: removed the weekend pickup guard (order.html day logic + create-checkout.mjs server check); pickup is now any open day for all items
 - Updated weekend-only copy across order, menu, home, and contact pages
