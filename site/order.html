@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Order Online — AspenOak</title>
-  <meta name="description" content="Order bagel sandwiches online for weekend pickup at AspenOak in downtown Sheboygan.">
+  <meta name="description" content="Order bagel sandwiches, bakery treats, and coffee online for pickup at AspenOak in downtown Sheboygan.">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css">
   <style>
@@ -81,7 +81,26 @@
       border-radius: 14px;
       padding: 1.25rem;
       cursor: pointer;
+      overflow: hidden;
       transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+    }
+    .product-card-media {
+      margin: -1.25rem -1.25rem 1rem;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: #fff3eb;
+    }
+    .product-card-media img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.35s ease;
+    }
+    .product-card:hover .product-card-media img { transform: scale(1.05); }
+    .product-card-media.ph {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.75rem;
     }
     .product-card:hover {
       border-color: var(--orange);
@@ -365,7 +384,7 @@
   <div class="order-hero">
     <p class="section-label">Order ahead for pickup</p>
     <h1>Order Online</h1>
-    <p>Bakery treats, coffee, and weekend bagel sandwiches — ready when you arrive.</p>
+    <p>Bakery treats, coffee, and fresh bagel sandwiches — ready when you arrive.</p>
   </div>
 
   <div class="order-page">
@@ -373,14 +392,14 @@
     <div class="weekend-note">
       <div class="weekend-note-icon">🥯</div>
       <div>
-        <h3>A note on pickup</h3>
-        <p>Most items are ready any day we're open. <strong>Bagel sandwiches are weekend-only</strong> — pick up Saturday (8 AM–3 PM) or Sunday (8 AM–12 PM). Choose your day and time at checkout.</p>
+        <h3>Order ahead, skip the line</h3>
+        <p>Everything's available any day we're open. Pick your day and time at checkout and we'll have it ready.</p>
       </div>
     </div>
 
     <!-- Bagel Sandwiches -->
     <div class="product-section">
-      <div class="product-section-title">Bagel Sandwiches <span class="section-tag">Weekend pickup</span></div>
+      <div class="product-section-title">Bagel Sandwiches <span class="section-tag">Made to order</span></div>
       <div class="product-grid">
 
         <div class="product-card" data-id="plain-jane" data-name="Plain Jane" data-desc="Bacon · Egg · Cheese" data-price="8.50" data-cents="850" data-bagel="true" data-option-label="Bagel type" data-options="Plain|Everything|Asiago|Jalapeño Cheddar">
@@ -639,7 +658,6 @@
             </select>
           </div>
         </div>
-        <p class="pickup-hint" id="pickup-hint" style="display:none;">🥯 Bagel sandwiches are weekend pickup only — choose Saturday or Sunday.</p>
         <label for="cart-notes">Notes / Allergies</label>
         <textarea id="cart-notes" rows="2" placeholder="Any substitutions or allergy info..."></textarea>
       </div>
@@ -697,7 +715,6 @@
       Sunday:    [480, 720],
     };
     const ALL_DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-    const WEEKEND_DAYS = ['Saturday','Sunday'];
 
     function fmtTime(mins) {
       let h = Math.floor(mins / 60);
@@ -737,14 +754,46 @@
     const cartCount     = document.getElementById('cart-count');
     const pickupDay     = document.getElementById('pickup-day');
     const pickupTime    = document.getElementById('pickup-time');
-    const pickupHint    = document.getElementById('pickup-hint');
     const checkoutError = document.getElementById('checkout-error');
     const checkoutBtn   = document.getElementById('checkout-btn');
 
-    const cartHasSandwich = () => cart.some(i => i.id === 'plain-jane' || i.id === 'the-dilly');
+    // ── Product photos (emoji fallback where we don't have a photo yet) ──
+    const MEDIA = {
+      'plain-jane': 'assets/plain-jane-bagel.jpg',
+      'the-dilly': 'assets/bagel-cross-section.jpg',
+      'muffin': 'assets/muffin-variety.jpg',
+      'pop-tart': 'assets/pop-tarts.jpg',
+      'mm-cookie': 'assets/cookie-sandwiches.jpg',
+      'bar': '🍫',
+      'sugar-cookie-sm': 'assets/sugarcookie.png',
+      'sugar-cookie-lg': 'assets/sugarcookie.png',
+      'dirt-cup': 'assets/chocolate-pudding-cup.jpg',
+      'energy-bites': '🥜',
+      'overnight-oats': 'assets/overnightoats.png',
+      'chia-pudding': '🫐',
+      'drip-coffee': '☕',
+      'espresso': '☕',
+      'latte': 'assets/latte.jpg',
+      'chai-latte': '☕',
+      'dirty-diet-coke': '🥤',
+    };
 
-    // ── Open modal ──
+    // ── Inject product photo + open modal on click ──
     document.querySelectorAll('.product-card').forEach(card => {
+      const media = document.createElement('div');
+      const src = MEDIA[card.dataset.id];
+      if (src && src.startsWith('assets/')) {
+        media.className = 'product-card-media';
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = card.dataset.name;
+        img.loading = 'lazy';
+        media.appendChild(img);
+      } else {
+        media.className = 'product-card-media ph';
+        media.textContent = src || '🥯';
+      }
+      card.insertBefore(media, card.firstElementChild);
       card.addEventListener('click', () => openModal(card.dataset));
     });
 
@@ -913,26 +962,16 @@
       populateDays();
     }
 
-    // ── Pickup day options (weekend-only when a sandwich is in the cart) ──
+    // ── Pickup day options (any open day) ──
     function populateDays() {
-      const allowed = cartHasSandwich() ? WEEKEND_DAYS : ALL_DAYS;
-      pickupHint.style.display = cartHasSandwich() ? '' : 'none';
-
       const prev = pickupDay.value;
       pickupDay.innerHTML = '<option value="">— Day —</option>';
-      allowed.forEach(d => {
+      ALL_DAYS.forEach(d => {
         const o = document.createElement('option');
         o.value = d; o.textContent = d;
         pickupDay.appendChild(o);
       });
-
-      if (allowed.includes(prev)) {
-        pickupDay.value = prev;
-      } else {
-        pickupDay.value = '';
-        pickupTime.innerHTML = '<option value="">— Time —</option>';
-        pickupTime.disabled = true;
-      }
+      if (ALL_DAYS.includes(prev)) pickupDay.value = prev;
     }
 
     // ── Pickup time options ──

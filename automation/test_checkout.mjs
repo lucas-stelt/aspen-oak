@@ -49,12 +49,13 @@ check('Dirty Diet Coke + 450', li['Dirty Diet Coke — Diet Coke']?.base_price_m
 check('M&M cookie (no variant) + 350', li['M&M Sandwich Cookie']?.base_price_money.amount === 350);
 check('pickup note recorded', sent.order.metadata.pickup_info.includes('Saturday at 9:00 AM'));
 
-// 2) Sandwich on a weekday must be rejected ---------------------------------
+// 2) Sandwich on a weekday is now allowed (bagels served every day) ----------
 res = await handler(reqFor({
   cart: [{ id: 'plain-jane', qty: 1, bagel: 'Plain' }],
   pickupDay: 'Tuesday', pickupTime: '9:00 AM',
 }));
-check('sandwich on weekday -> 400', res.status === 400);
+check('sandwich on weekday -> 200 (everyday)', res.status === 200);
+check('weekday sandwich name still has bagel type', sent.order.line_items[0].name === 'Plain Jane Bagel Sandwich (Plain bagel)');
 
 // 3) Non-sandwich on a weekday is fine --------------------------------------
 res = await handler(reqFor({
