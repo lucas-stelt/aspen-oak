@@ -14,6 +14,12 @@ Track all content updates here so you have a record of what changed and when.
 
 ## Log
 
+**2026-06-15 — Homepage photo refresh**
+- Hero: replaced single blob photo + floating photo with a 3-photo cluster (bagel, muffin, oats) that fills the column — less whitespace, higher-res shots
+- Collage: removed the refreshers image (moved to menu), expanded to a 9-photo wall with new shots (bagel cross-section feature, cookie sandwiches, pop-tarts, pudding cup, latte, stuffed bagels)
+- Menu: Refreshers section is now a photo feature band using refreshers.png
+- Files: site/index.html, site/menu.html, site/css/home.css, site/css/style.css
+
 **2026-06-15 — Menu redesign, new items & photos, price update**
 - Converted 18 iPhone .HEIC photos to web-optimized .jpg (automation/convert_heic.py); originals not committed (.gitignore)
 - Menu redesign: photo-forward feature bands + photo-card grids (new CSS in style.css)
