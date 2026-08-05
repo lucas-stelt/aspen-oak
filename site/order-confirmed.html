@@ -17,6 +17,19 @@
     .confirmed-icon { font-size: 3.5rem; margin-bottom: 1.5rem; }
     .confirmed-wrap h1 { margin-bottom: 0.5rem; }
     .confirmed-wrap p { color: var(--mid); margin-bottom: 1.5rem; }
+    .test-notice {
+      background: #fff4e5;
+      border: 2px solid #f0b26b;
+      border-radius: 12px;
+      color: #6b3d10;
+      padding: 1.1rem 1.25rem;
+      text-align: left;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 1.75rem;
+    }
+    .test-notice strong { display: block; margin-bottom: 0.25rem; }
+    .test-notice p { color: inherit; margin: 0; }
     .confirmed-wrap a.btn {
       display: inline-block;
       background: var(--orange);
@@ -45,9 +58,12 @@
   </nav>
 
   <div class="confirmed-wrap">
-    <div class="confirmed-icon">🎉</div>
-    <h1>Order Confirmed!</h1>
-    <p>Thanks for ordering from AspenOak. We'll have everything fresh and ready for your pickup at <strong>633 N 8th Street, Sheboygan</strong>. See you soon!</p>
+    <div class="confirmed-icon">🚧</div>
+    <h1>This was a test order</h1>
+    <div class="test-notice">
+      <strong>Your online order did not go through.</strong>
+      <p>Online ordering is still in test mode, so no order was placed and no payment was taken. If you were charged anything, it will not be processed. To place a real order, please call us or stop by — we're at <strong>633 N 8th Street, Sheboygan</strong>. Thanks for helping us test!</p>
+    </div>
     <a href="index.html" class="btn">Back to Home</a>
   </div>
 

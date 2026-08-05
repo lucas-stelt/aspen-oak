@@ -45,6 +45,22 @@
     }
     .cart-count.visible { display: inline-block; }
 
+    /* ── Test-mode banner ── */
+    .test-banner {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      background: #fff4e5;
+      border-bottom: 2px solid #f0b26b;
+      color: #6b3d10;
+      padding: 0.9rem 1.5rem;
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+    .test-banner-icon { font-size: 1.25rem; line-height: 1.35; }
+    .test-banner strong { display: block; margin-bottom: 0.15rem; font-size: 0.95rem; }
+    .test-banner p { margin: 0; max-width: 760px; }
+
     /* ── Page header ── */
     .order-hero {
       text-align: center;
@@ -388,6 +404,14 @@
       </li>
     </ul>
   </nav>
+
+  <div class="test-banner" role="alert">
+    <span class="test-banner-icon">🚧</span>
+    <div>
+      <strong>Online ordering is in test mode</strong>
+      <p>You can browse and try the checkout, but <strong>no real order is placed and no payment is taken</strong> — any card charge will not go through. Please call us or order in store for now. Thanks for your patience while we finish setting this up!</p>
+    </div>
+  </div>
 
   <div class="order-hero">
     <p class="section-label">Order ahead for pickup</p>
