@@ -63,7 +63,8 @@ aspen-oak/
 - **Netlify env vars required:** `SQUARE_ACCESS_TOKEN`, `SQUARE_LOCATION_ID`, `SQUARE_ENV` (`sandbox` or `production`)
 - **Local env vars:** same keys in `.env` file (gitignored)
 - **Status:** ✅ LIVE IN PRODUCTION (2026-08-28) — production token + location set in Netlify, redeployed, live smoke test returned a real `square.link` payment link
-- **Production location ID:** `LGNVHBW92ZDXZ` (SheboyganAspenOak, 633 N 8th St) — set in Netlify env vars, `SQUARE_ENV=production`
+- **Production location ID:** `LWKHJVN6ANQ2A` (AspenOak, 1440 Riverdale Ave) — this is the location the physical POS/register actually uses (all in-person card+cash sales ring up here), so online orders are pointed here too. Set in Netlify env vars, `SQUARE_ENV=production`
+- **Other production locations (NOT used for online orders):** `LGNVHBW92ZDXZ` (SheboyganAspenOak, 633 N 8th St — no POS activity), `LDGKGKC2HEND6` (ElkhartAspenOak)
 - **Sandbox location ID (for reference):** `LDCGF33Z8G3QZ`
 - **Test card (sandbox only):** `4111 1111 1111 1111`, any future expiry, any CVV
 - **Local dev note:** `netlify dev` crashes on this machine due to Deno EBUSY (corporate AV blocks exe). Use `netlify functions:serve` for local function testing instead.
