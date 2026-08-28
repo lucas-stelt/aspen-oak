@@ -84,10 +84,17 @@ export default async (req) => {
     });
   }
 
+  const pickupLine = pickupDay && pickupTime ? `Pickup: ${pickupDay} at ${pickupTime}` : '';
   const orderNote = [
-    pickupDay && pickupTime ? `Pickup: ${pickupDay} at ${pickupTime}` : null,
+    pickupLine || null,
     notes ? `Notes: ${notes}` : null,
   ].filter(Boolean).join(' | ');
+
+  // Surface pickup time on the register ticket (line-item notes are visible on
+  // the Square POS/receipt; order metadata is not).
+  if (pickupLine && lineItems.length) {
+    lineItems[0].note = pickupLine.slice(0, 500);
+  }
 
   const token = process.env.SQUARE_ACCESS_TOKEN;
   const locationId = process.env.SQUARE_LOCATION_ID;
@@ -101,7 +108,7 @@ export default async (req) => {
     order: {
       location_id: locationId,
       line_items: lineItems,
-      ...(orderNote && { metadata: { pickup_info: orderNote } }),
+      ...(orderNote && { note: orderNote.slice(0, 500) }),
     },
     checkout_options: {
       redirect_url: `${ALLOWED_ORIGIN}/order-confirmed.html`,
