@@ -62,10 +62,10 @@ aspen-oak/
 - **Function:** `netlify/functions/create-checkout.mjs` — Netlify V2 format, validates items server-side, hardcoded prices, calls `POST /v2/online-checkout/payment-links`, serves at `/api/create-checkout` via `export const config`
 - **Netlify env vars required:** `SQUARE_ACCESS_TOKEN`, `SQUARE_LOCATION_ID`, `SQUARE_ENV` (`sandbox` or `production`)
 - **Local env vars:** same keys in `.env` file (gitignored)
-- **Status:** ✅ Sandbox end-to-end test PASSED — cart → checkout → Square payment page flow is working
-- **Sandbox location ID:** `LDCGF33Z8G3QZ` (already set in Netlify env vars)
-- **Test card (sandbox):** `4111 1111 1111 1111`, any future expiry, any CVV
-- **Go-live checklist:** Swap `SQUARE_ACCESS_TOKEN` and `SQUARE_LOCATION_ID` in Netlify env vars to production values, set `SQUARE_ENV=production`, trigger redeploy
+- **Status:** ✅ LIVE IN PRODUCTION (2026-08-28) — production token + location set in Netlify, redeployed, live smoke test returned a real `square.link` payment link
+- **Production location ID:** `LGNVHBW92ZDXZ` (SheboyganAspenOak, 633 N 8th St) — set in Netlify env vars, `SQUARE_ENV=production`
+- **Sandbox location ID (for reference):** `LDCGF33Z8G3QZ`
+- **Test card (sandbox only):** `4111 1111 1111 1111`, any future expiry, any CVV
 - **Local dev note:** `netlify dev` crashes on this machine due to Deno EBUSY (corporate AV blocks exe). Use `netlify functions:serve` for local function testing instead.
 
 ## Development Workflow
@@ -79,7 +79,7 @@ aspen-oak/
 - [x] Purchase and configure custom domain (aspenoakhome.com — live)
 - [x] Square ordering UI built and deployed (`order.html` + Netlify function)
 - [x] Debug and complete Square sandbox end-to-end test
-- [ ] Swap to Square production credentials and go live
+- [x] Swap to Square production credentials and go live (2026-08-28)
 - [ ] Automated content pipeline (iCloud shared drive → GitHub → Netlify)
 
 ## Notes
