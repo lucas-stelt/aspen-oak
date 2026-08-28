@@ -90,10 +90,11 @@ export default async (req) => {
     notes ? `Notes: ${notes}` : null,
   ].filter(Boolean).join(' | ');
 
-  // Surface pickup time on the register ticket (line-item notes are visible on
-  // the Square POS/receipt; order metadata is not).
-  if (pickupLine && lineItems.length) {
-    lineItems[0].note = pickupLine.slice(0, 500);
+  // Square's Payment Links API drops the order-level `note`, so put the pickup
+  // time + customer notes on the first line item — that's what shows on the POS
+  // ticket and Dashboard. (Order metadata is API-only and never displayed.)
+  if (orderNote && lineItems.length) {
+    lineItems[0].note = orderNote.slice(0, 500);
   }
 
   const token = process.env.SQUARE_ACCESS_TOKEN;
@@ -108,7 +109,6 @@ export default async (req) => {
     order: {
       location_id: locationId,
       line_items: lineItems,
-      ...(orderNote && { note: orderNote.slice(0, 500) }),
     },
     checkout_options: {
       redirect_url: `${ALLOWED_ORIGIN}/order-confirmed.html`,
