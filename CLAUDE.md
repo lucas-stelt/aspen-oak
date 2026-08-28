@@ -90,6 +90,7 @@ aspen-oak/
 - Item prices in `create-checkout.mjs` `ITEMS` map must stay in sync with `order.html` display prices AND `menu.html`. Current sandwich prices: Plain Jane $8.50, The Dilly $9.50
 - `order.html` product cards drive the modal: `data-options` (pipe-separated) + `data-option-label` add a flavor/soda selector; `data-bagel="true"` adds the bagel selector + drink upsell and marks the item weekend-only. New orderable items must also be added to the `ITEMS` map (with a `variants` allow-list) in `create-checkout.mjs`
 - Bagel sandwiches are weekend-pickup-only, enforced both in `order.html` (day dropdown) and server-side in `create-checkout.mjs`
+- Pickup day/time + customer notes are written to the **first line item's `note`** in `create-checkout.mjs` — this is the only field that shows on the Square POS ticket/Dashboard. Square's Payment Links API silently DROPS the order-level `note`, and order `metadata` is API-only (never displayed in the UI), so neither can be used to surface pickup info to staff.
 - iPhone `.HEIC` photos: drop into `site/assets/`, add a name mapping in `automation/convert_heic.py`, run it to produce web `.jpg`. HEIC originals are gitignored (don't commit/deploy them)
 - taste-skill is installed (8 skills via `npx skills add`) — restart Claude Code to use them
 - Never commit `.env` — credentials go in Netlify environment variables for production
