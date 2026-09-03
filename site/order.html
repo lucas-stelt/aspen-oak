@@ -578,20 +578,65 @@
           </div>
         </div>
 
-        <div class="product-card" data-id="latte" data-name="Latte" data-desc="16 oz · Hot or iced" data-price="5.25" data-cents="525">
+        <div class="product-card" data-id="latte" data-name="Latte" data-desc="Hot or iced" data-price="4.00" data-cents="400" data-sizes="12 oz:400|16 oz:525|20 oz:600" data-milk="true" data-syrup="true">
           <h4>Latte</h4>
-          <p>16 oz · Espresso with steamed milk · Hot or iced</p>
+          <p>Espresso with steamed milk · Hot or iced</p>
           <div class="product-card-footer">
-            <span class="product-price">$5.25</span>
+            <span class="product-price">From $4.00</span>
             <button class="add-btn">+ Add</button>
           </div>
         </div>
 
-        <div class="product-card" data-id="chai-latte" data-name="Chai" data-desc="12 oz · Hot or iced" data-price="5.50" data-cents="550">
-          <h4>Chai</h4>
-          <p>12 oz · Spiced chai with steamed milk · Hot or iced</p>
+        <div class="product-card" data-id="cappuccino" data-name="Cappuccino" data-desc="Classic espresso and steamed milk" data-price="3.75" data-cents="375" data-sizes="12 oz:375|16 oz:450" data-milk="true" data-syrup="true">
+          <h4>Cappuccino</h4>
+          <p>Classic espresso and steamed milk</p>
           <div class="product-card-footer">
-            <span class="product-price">$5.50</span>
+            <span class="product-price">From $3.75</span>
+            <button class="add-btn">+ Add</button>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="americano" data-name="Americano" data-desc="Espresso and water · Hot or iced" data-price="3.50" data-cents="350" data-sizes="12 oz:350|16 oz:450|20 oz:550" data-milk="true" data-default-milk="No milk" data-syrup="true">
+          <h4>Americano</h4>
+          <p>Espresso and water · Hot or iced</p>
+          <div class="product-card-footer">
+            <span class="product-price">From $3.50</span>
+            <button class="add-btn">+ Add</button>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="mocha" data-name="Mocha" data-desc="Espresso, chocolate, and milk · Hot or iced" data-price="4.50" data-cents="450" data-sizes="12 oz:450|16 oz:550|20 oz:650" data-milk="true" data-syrup="true">
+          <h4>Mocha</h4>
+          <p>Espresso, chocolate, and milk · Hot or iced</p>
+          <div class="product-card-footer">
+            <span class="product-price">From $4.50</span>
+            <button class="add-btn">+ Add</button>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="chai-latte" data-name="Chai" data-desc="Spiced chai with milk · Hot or iced" data-price="5.50" data-cents="550" data-sizes="12 oz:550|16 oz:650|20 oz:750" data-milk="true" data-syrup="true">
+          <h4>Chai</h4>
+          <p>Spiced chai with milk · Hot or iced</p>
+          <div class="product-card-footer">
+            <span class="product-price">From $5.50</span>
+            <button class="add-btn">+ Add</button>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="chai-charger" data-name="Chai Charger" data-desc="Spiced chai with espresso · Hot or iced" data-price="6.00" data-cents="600" data-sizes="12 oz:600|16 oz:700|20 oz:800" data-milk="true" data-syrup="true">
+          <h4>Chai Charger</h4>
+          <p>Spiced chai with espresso · Hot or iced</p>
+          <div class="product-card-footer">
+            <span class="product-price">From $6.00</span>
+            <button class="add-btn">+ Add</button>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="hot-chocolate" data-name="Hot Chocolate" data-desc="Chocolate and steamed milk" data-price="4.00" data-cents="400" data-sizes="12 oz:400|16 oz:450" data-milk="true" data-syrup="true">
+          <h4>Hot Chocolate</h4>
+          <p>Chocolate and steamed milk</p>
+          <div class="product-card-footer">
+            <span class="product-price">From $4.00</span>
             <button class="add-btn">+ Add</button>
           </div>
         </div>
@@ -626,6 +671,23 @@
         </select>
       </div>
 
+      <div class="modal-section" id="size-section" style="display:none;">
+        <label for="modal-size">Size *</label>
+        <select id="modal-size">
+          <option value="">— Choose a size —</option>
+        </select>
+      </div>
+
+      <div class="modal-section" id="milk-section" style="display:none;">
+        <label for="modal-milk">Milk</label>
+        <select id="modal-milk"></select>
+      </div>
+
+      <div class="modal-section" id="syrup-section" style="display:none;">
+        <label for="modal-syrup">Syrup</label>
+        <select id="modal-syrup"></select>
+      </div>
+
       <!-- Quantity -->
       <div class="qty-row">
         <label>Quantity</label>
@@ -641,8 +703,6 @@
         <p>Add a drink?</p>
         <div class="upsell-chips">
           <button class="upsell-chip" data-id="drip-coffee" data-name="Drip Coffee" data-cents="300">Drip Coffee +$3</button>
-          <button class="upsell-chip" data-id="latte" data-name="Latte" data-cents="525">16 oz Latte +$5.25</button>
-          <button class="upsell-chip" data-id="chai-latte" data-name="12 oz Chai" data-cents="550">12 oz Chai +$5.50</button>
           <button class="upsell-chip" data-id="espresso" data-name="Espresso" data-cents="300">Espresso +$3</button>
         </div>
       </div>
@@ -759,7 +819,7 @@
     }
 
     // ── State ──
-    let cart = [];            // [{ id, name, desc, cents, qty, bagel, variant }]
+    let cart = [];            // [{ id, name, desc, cents, qty, bagel, variant, size, milk, syrup }]
     let pendingUpsells = [];  // chip selections in modal
     let activeItem = null;
 
@@ -771,6 +831,12 @@
     const optionSection = document.getElementById('option-section');
     const optionLabel   = document.getElementById('option-label');
     const modalOption   = document.getElementById('modal-option');
+    const sizeSection   = document.getElementById('size-section');
+    const modalSize     = document.getElementById('modal-size');
+    const milkSection   = document.getElementById('milk-section');
+    const modalMilk     = document.getElementById('modal-milk');
+    const syrupSection  = document.getElementById('syrup-section');
+    const modalSyrup    = document.getElementById('modal-syrup');
     const upsellSection = document.getElementById('upsell-section');
     const modalQty      = document.getElementById('modal-qty');
     const modalAddBtn   = document.getElementById('modal-add-btn');
@@ -804,7 +870,12 @@
       'drip-coffee': '☕',
       'espresso': '☕',
       'latte': 'assets/latte.jpg',
+      'cappuccino': '☕',
+      'americano': '☕',
+      'mocha': 'assets/latte.jpg',
       'chai-latte': '☕',
+      'chai-charger': '☕',
+      'hot-chocolate': '☕',
       'dirty-diet-coke': '🥤',
     };
 
@@ -851,6 +922,38 @@
       }
       optionSection.style.display = hasOptions ? '' : 'none';
 
+      const hasSizes = !!data.sizes;
+      sizeSection.style.display = hasSizes ? '' : 'none';
+      if (hasSizes) {
+        modalSize.innerHTML = '<option value="">— Choose a size —</option>';
+        data.sizes.split('|').forEach(sizeEntry => {
+          const [size, cents] = sizeEntry.split(':');
+          const opt = document.createElement('option');
+          opt.value = size;
+          opt.dataset.cents = cents;
+          opt.textContent = `${size} · $${(parseInt(cents) / 100).toFixed(2)}`;
+          modalSize.appendChild(opt);
+        });
+        modalSize.value = '';
+        modalSize.style.borderColor = '';
+      }
+
+      const milkOptions = ['No milk', 'Whole', 'Skim', '2%', 'Chocolate', 'Almond', 'Oat'];
+      const hasMilk = data.milk === 'true';
+      milkSection.style.display = hasMilk ? '' : 'none';
+      if (hasMilk) {
+        modalMilk.innerHTML = milkOptions.map(milk => `<option value="${milk}">${milk}</option>`).join('');
+        modalMilk.value = data.defaultMilk || 'Whole';
+      }
+
+      const syrupOptions = ['No syrup', 'Vanilla', 'Brown sugar', 'Brown sugar cinnamon', 'Pistachio', 'Cinnamon', 'Hazelnut', 'White chocolate', 'Caramel', 'Dark chocolate', 'Brown butter toffee', 'Almond', 'Macadamia nut', 'Irish cream', 'Salted caramel'];
+      const hasSyrup = data.syrup === 'true';
+      syrupSection.style.display = hasSyrup ? '' : 'none';
+      if (hasSyrup) {
+        modalSyrup.innerHTML = syrupOptions.map(syrup => `<option value="${syrup}">${syrup}</option>`).join('');
+        modalSyrup.value = 'No syrup';
+      }
+
       // Drink upsell only on bagel sandwiches
       const isSandwich = data.bagel === 'true';
       upsellSection.style.display = isSandwich ? '' : 'none';
@@ -879,6 +982,14 @@
       if (v < 20) modalQty.textContent = v + 1;
     });
 
+    modalSize.addEventListener('change', () => {
+      modalSize.style.borderColor = '';
+      const selected = modalSize.selectedOptions[0];
+      modalPrice.textContent = selected?.dataset.cents
+        ? `$${(parseInt(selected.dataset.cents) / 100).toFixed(2)}`
+        : `From $${activeItem?.price || '0.00'}`;
+    });
+
     // ── Upsell chips ──
     document.querySelectorAll('.upsell-chip').forEach(chip => {
       chip.addEventListener('click', () => {
@@ -901,23 +1012,33 @@
         modalOption.focus();
         return;
       }
+      const hasSizes = !!activeItem.sizes;
+      if (hasSizes && !modalSize.value) {
+        modalSize.style.borderColor = 'var(--orange)';
+        modalSize.focus();
+        return;
+      }
 
       const isSandwich = activeItem.bagel === 'true';
       const choice = hasOptions ? modalOption.value : null;
       const qty = parseInt(modalQty.textContent);
+      const selectedSize = hasSizes ? modalSize.selectedOptions[0] : null;
 
       addToCart({
         id:      activeItem.id,
         name:    activeItem.name,
         desc:    activeItem.desc,
-        cents:   parseInt(activeItem.cents),
+        cents:   selectedSize ? parseInt(selectedSize.dataset.cents) : parseInt(activeItem.cents),
         qty,
         bagel:   isSandwich ? choice : null,
         variant: (hasOptions && !isSandwich) ? choice : null,
+        size:    selectedSize?.value || null,
+        milk:    activeItem.milk === 'true' ? modalMilk.value : null,
+        syrup:   activeItem.syrup === 'true' ? modalSyrup.value : null,
       });
 
       pendingUpsells.forEach(u => {
-        addToCart({ id: u.id, name: u.name, desc: '', cents: u.cents, qty: 1, bagel: null, variant: null });
+        addToCart({ id: u.id, name: u.name, desc: '', cents: u.cents, qty: 1, bagel: null, variant: null, size: null, milk: null, syrup: null });
       });
 
       closeModal();
@@ -925,7 +1046,7 @@
     });
 
     function addToCart(item) {
-      const existing = cart.find(c => c.id === item.id && c.bagel === item.bagel && c.variant === item.variant);
+      const existing = cart.find(c => c.id === item.id && c.bagel === item.bagel && c.variant === item.variant && c.size === item.size && c.milk === item.milk && c.syrup === item.syrup);
       if (existing) {
         existing.qty += item.qty;
       } else {
@@ -968,7 +1089,14 @@
       cartTotal.textContent = `$${(totalCents / 100).toFixed(2)}`;
 
       cartItemsEl.innerHTML = cart.map((item, i) => {
-        const meta = item.bagel ? `${item.bagel} bagel` : (item.variant || item.desc);
+        const customizations = [
+          item.bagel ? `${item.bagel} bagel` : null,
+          item.variant,
+          item.size,
+          item.milk ? (item.milk === 'No milk' ? item.milk : `${item.milk} milk`) : null,
+          item.syrup !== 'No syrup' ? item.syrup : null,
+        ].filter(Boolean);
+        const meta = customizations.length ? customizations.join(' · ') : item.desc;
         return `
         <div class="cart-item">
           <div class="cart-item-info">
@@ -1045,7 +1173,7 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            cart: cart.map(i => ({ id: i.id, qty: i.qty, bagel: i.bagel || null, variant: i.variant || null })),
+            cart: cart.map(i => ({ id: i.id, qty: i.qty, bagel: i.bagel || null, variant: i.variant || null, size: i.size || null, milk: i.milk || null, syrup: i.syrup || null })),
             pickupDay: pickupDay.value,
             pickupTime: pickupTime.value,
             notes: document.getElementById('cart-notes').value,

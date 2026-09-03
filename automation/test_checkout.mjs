@@ -36,6 +36,7 @@ let res = await handler(reqFor({
     { id: 'the-dilly', qty: 1, bagel: 'Asiago' },
     { id: 'dirt-cup', qty: 1, variant: "S'mores" },
     { id: 'dirty-diet-coke', qty: 1, variant: 'Diet Coke' },
+    { id: 'latte', qty: 1, size: '20 oz', milk: 'Oat', syrup: 'Brown sugar cinnamon' },
     { id: 'mm-cookie', qty: 3 },
   ],
   pickupDay: 'Saturday', pickupTime: '9:00 AM', notes: 'no onions',
@@ -50,6 +51,7 @@ check('The Dilly price 1050', li['The Dilly Bagel Sandwich (Asiago bagel)']?.bas
 check('Muffin variant name + 350', li['Muffin — Chocolate Chip']?.base_price_money.amount === 350);
 check("Dirt cup S'mores + 550", li["Dirt Cake Cup — S'mores"]?.base_price_money.amount === 550);
 check('Dirty Diet Coke + 450', li['Dirty Diet Coke — Diet Coke']?.base_price_money.amount === 450);
+check('custom 20 oz latte + 600', li['Latte — 20 oz, Oat milk, Brown sugar cinnamon syrup']?.base_price_money.amount === 600);
 check('M&M cookie (no variant) + 350', li['M&M Sandwich Cookie']?.base_price_money.amount === 350);
 check('pickup note recorded', sent.order.line_items[0].note.includes('Saturday at 9:00 AM'));
 
@@ -92,6 +94,12 @@ check('unknown item -> 400', res.status === 400);
 
 res = await handler(reqFor({ cart: [{ id: 'muffin', qty: 1, variant: 'Hacked $0' }], pickupDay: 'Tuesday', pickupTime: '9:00 AM' }));
 check('bad variant stripped, still 350', res.status === 200 && sent.order.line_items[0].name === 'Muffin' && sent.order.line_items[0].base_price_money.amount === 350);
+
+res = await handler(reqFor({ cart: [{ id: 'latte', qty: 1, size: '99 oz', milk: 'Oat', syrup: 'Vanilla' }], pickupDay: 'Tuesday', pickupTime: '9:00 AM' }));
+check('bad drink size -> 400', res.status === 400);
+
+res = await handler(reqFor({ cart: [{ id: 'latte', qty: 1, size: '12 oz', milk: 'Oat', syrup: 'Free money' }], pickupDay: 'Tuesday', pickupTime: '9:00 AM' }));
+check('bad drink syrup -> 400', res.status === 400);
 
 console.log(failures === 0 ? '\nALL SERVER TESTS PASSED' : `\n${failures} FAILURE(S)`);
 process.exit(failures === 0 ? 0 : 1);

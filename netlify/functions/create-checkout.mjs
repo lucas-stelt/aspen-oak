@@ -4,6 +4,7 @@ const ALLOWED_ORIGIN = 'https://aspenoakhome.com';
 // and menu.html must stay in sync with these amounts.
 //   bagel:        true  -> accepts an `entry.bagel` choice (Plain/Everything/...)
 //   variants:     list  -> accepts an `entry.variant` flavor/option from this set
+//   sizes:        map   -> accepts an `entry.size` and sets its server-owned price
 const ITEMS = {
   'basic-b':         { name: 'Basic B Bagel Sandwich',    amount: 800,  bagel: true },
   'the-piggy':       { name: 'The Piggy Bagel Sandwich',  amount: 950,  bagel: true },
@@ -12,8 +13,13 @@ const ITEMS = {
 
   'drip-coffee':     { name: 'Drip Coffee',  amount: 300 },
   'espresso':        { name: 'Espresso',     amount: 300 },
-  'latte':           { name: '16 oz Latte',  amount: 525 },
-  'chai-latte':      { name: '12 oz Chai',   amount: 550 },
+  'latte':           { name: 'Latte',         sizes: { '12 oz': 400, '16 oz': 525, '20 oz': 600 }, milk: true, syrup: true },
+  'cappuccino':      { name: 'Cappuccino',    sizes: { '12 oz': 375, '16 oz': 450 }, milk: true, syrup: true },
+  'americano':       { name: 'Americano',     sizes: { '12 oz': 350, '16 oz': 450, '20 oz': 550 }, milk: true, syrup: true },
+  'mocha':           { name: 'Mocha',         sizes: { '12 oz': 450, '16 oz': 550, '20 oz': 650 }, milk: true, syrup: true },
+  'chai-latte':      { name: 'Chai',          sizes: { '12 oz': 550, '16 oz': 650, '20 oz': 750 }, milk: true, syrup: true },
+  'chai-charger':    { name: 'Chai Charger',  sizes: { '12 oz': 600, '16 oz': 700, '20 oz': 800 }, milk: true, syrup: true },
+  'hot-chocolate':   { name: 'Hot Chocolate', sizes: { '12 oz': 400, '16 oz': 450 }, milk: true, syrup: true },
   'dirty-diet-coke': { name: 'Dirty Diet Coke', amount: 450, variants: ['Coke', 'Diet Coke'] },
 
   'muffin':          { name: 'Muffin',       amount: 350, variants: ['Blueberry', 'Mixed Berry', 'Chocolate Chip', 'Banana', 'Lemon Poppyseed'] },
@@ -30,6 +36,8 @@ const ITEMS = {
 };
 
 const ALLOWED_BAGELS = ['Plain', 'Everything', 'Asiago', 'Jalapeño Cheddar'];
+const ALLOWED_MILKS = ['No milk', 'Whole', 'Skim', '2%', 'Chocolate', 'Almond', 'Oat'];
+const ALLOWED_SYRUPS = ['No syrup', 'Vanilla', 'Brown sugar', 'Brown sugar cinnamon', 'Pistachio', 'Cinnamon', 'Hazelnut', 'White chocolate', 'Caramel', 'Dark chocolate', 'Brown butter toffee', 'Almond', 'Macadamia nut', 'Irish cream', 'Salted caramel'];
 const BAGEL_PICKUP_WINDOWS = {
   Monday: [480, 720], Tuesday: [480, 720], Wednesday: [480, 720],
   Thursday: [480, 720], Friday: [480, 720],
@@ -84,6 +92,7 @@ export default async (req) => {
     }
 
     let itemName = item.name;
+    let amount = item.amount;
 
     if (item.bagel) containsBagelSandwich = true;
 
@@ -95,10 +104,32 @@ export default async (req) => {
       itemName += ` — ${entry.variant}`;
     }
 
+    if (item.sizes) {
+      amount = item.sizes[entry.size];
+      if (!amount) {
+        return new Response(JSON.stringify({ error: `Invalid size for ${entry.id}` }), { status: 400 });
+      }
+      itemName += ` — ${entry.size}`;
+    }
+
+    if (item.milk) {
+      if (!ALLOWED_MILKS.includes(entry.milk)) {
+        return new Response(JSON.stringify({ error: `Invalid milk for ${entry.id}` }), { status: 400 });
+      }
+      itemName += entry.milk === 'No milk' ? ', no milk' : `, ${entry.milk} milk`;
+    }
+
+    if (item.syrup) {
+      if (!ALLOWED_SYRUPS.includes(entry.syrup)) {
+        return new Response(JSON.stringify({ error: `Invalid syrup for ${entry.id}` }), { status: 400 });
+      }
+      if (entry.syrup !== 'No syrup') itemName += `, ${entry.syrup} syrup`;
+    }
+
     lineItems.push({
       name: itemName,
       quantity: String(qty),
-      base_price_money: { amount: item.amount, currency: 'USD' },
+      base_price_money: { amount, currency: 'USD' },
     });
   }
 

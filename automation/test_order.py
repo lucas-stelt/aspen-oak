@@ -3,7 +3,8 @@
 Drives the page with Playwright + system Chrome, intercepts the /api/create-checkout
 POST to capture the payload the front-end would send, and asserts the cart behaves:
   - flavor item -> variant routing
-    - bagel item  -> bagel routing + weekday noon cutoff
+  - drink item  -> size pricing + milk/syrup routing
+  - bagel item  -> bagel routing + weekday noon cutoff
   - quantities, totals, and option requirement
 """
 import json
@@ -42,7 +43,21 @@ def run():
         assert "Chocolate Chip" in pg.inner_text("#cart-items"), "variant should appear in cart"
         pg.click("#cart-close")  # cart opens after add; close before next product
 
-        # 2) Add a Plain Jane (bagel) ------------------------------------------
+        # 2) Add a customized Latte --------------------------------------------
+        pg.click('.product-card[data-id="latte"]')
+        assert pg.is_visible("#size-section"), "size selector should show for latte"
+        assert pg.is_visible("#milk-section"), "milk selector should show for latte"
+        assert pg.is_visible("#syrup-section"), "syrup selector should show for latte"
+        pg.select_option("#modal-size", "20 oz")
+        pg.select_option("#modal-milk", "Oat")
+        pg.select_option("#modal-syrup", "Pistachio")
+        assert pg.inner_text("#modal-price") == "$6.00", "20 oz latte should update to $6.00"
+        pg.click("#modal-add-btn")
+        cart_text = pg.inner_text("#cart-items")
+        assert "20 oz · Oat milk · Pistachio" in cart_text, cart_text
+        pg.click("#cart-close")
+
+        # 3) Add a Plain Jane (bagel) ------------------------------------------
         pg.click('.product-card[data-id="plain-jane"]')
         assert "Bagel type" in pg.inner_text("#option-label"), "sandwich label should be Bagel type"
         pg.select_option("#modal-option", "Everything")
@@ -54,7 +69,7 @@ def run():
         assert day_opts == ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], \
             f"all open days should be available even with a sandwich, got {day_opts}"
 
-        # 3) Weekday sandwich slots stop at noon; weekend slots run all day ----
+        # 4) Weekday sandwich slots stop at noon; weekend slots run all day ----
         pg.select_option("#pickup-day", "Wednesday")
         weekday_times = pg.eval_on_selector_all("#pickup-time option", "els => els.map(e => e.value).filter(Boolean)")
         assert weekday_times[-1] == "12:00 PM" and "12:30 PM" not in weekday_times, weekday_times
@@ -75,6 +90,9 @@ def run():
     assert items["muffin"]["bagel"] is None
     assert items["plain-jane"]["bagel"] == "Everything", items["plain-jane"]
     assert items["plain-jane"]["variant"] is None
+    assert items["latte"]["size"] == "20 oz"
+    assert items["latte"]["milk"] == "Oat"
+    assert items["latte"]["syrup"] == "Pistachio"
     assert payload["pickupDay"] == "Wednesday" and payload["pickupTime"] == "12:00 PM"
     print("PAYLOAD:", json.dumps(payload))
     print("ALL ASSERTIONS PASSED")
