@@ -26,9 +26,11 @@ function check(name, cond) {
   if (!cond) failures++;
 }
 
-// 1) Valid mixed order: sandwich (weekend) + flavored items -----------------
+// 1) Valid mixed order: sandwiches (weekend) + flavored items ---------------
 let res = await handler(reqFor({
   cart: [
+    { id: 'basic-b', qty: 1, bagel: 'Plain' },
+    { id: 'the-piggy', qty: 1, bagel: 'Jalapeño Cheddar' },
     { id: 'plain-jane', qty: 2, bagel: 'Everything' },
     { id: 'muffin', qty: 1, variant: 'Chocolate Chip' },
     { id: 'the-dilly', qty: 1, bagel: 'Asiago' },
@@ -40,22 +42,42 @@ let res = await handler(reqFor({
 }));
 check('valid order returns 200', res.status === 200);
 const li = Object.fromEntries(sent.order.line_items.map(i => [i.name, i]));
-check('Plain Jane price 850 + bagel name', li['Plain Jane Bagel Sandwich (Everything bagel)']?.base_price_money.amount === 850);
+check('Basic B price 800', li['Basic B Bagel Sandwich (Plain bagel)']?.base_price_money.amount === 800);
+check('The Piggy price 950', li['The Piggy Bagel Sandwich (Jalapeño Cheddar bagel)']?.base_price_money.amount === 950);
+check('Plain Jane price 950 + bagel name', li['Plain Jane Bagel Sandwich (Everything bagel)']?.base_price_money.amount === 950);
 check('Plain Jane qty 2', li['Plain Jane Bagel Sandwich (Everything bagel)']?.quantity === '2');
-check('The Dilly price 950', li['The Dilly Bagel Sandwich (Asiago bagel)']?.base_price_money.amount === 950);
+check('The Dilly price 1050', li['The Dilly Bagel Sandwich (Asiago bagel)']?.base_price_money.amount === 1050);
 check('Muffin variant name + 350', li['Muffin — Chocolate Chip']?.base_price_money.amount === 350);
 check("Dirt cup S'mores + 550", li["Dirt Cake Cup — S'mores"]?.base_price_money.amount === 550);
 check('Dirty Diet Coke + 450', li['Dirty Diet Coke — Diet Coke']?.base_price_money.amount === 450);
 check('M&M cookie (no variant) + 350', li['M&M Sandwich Cookie']?.base_price_money.amount === 350);
-check('pickup note recorded', sent.order.metadata.pickup_info.includes('Saturday at 9:00 AM'));
+check('pickup note recorded', sent.order.line_items[0].note.includes('Saturday at 9:00 AM'));
 
-// 2) Sandwich on a weekday is now allowed (bagels served every day) ----------
+// 2) Sandwiches are available on weekdays through noon only -----------------
 res = await handler(reqFor({
   cart: [{ id: 'plain-jane', qty: 1, bagel: 'Plain' }],
-  pickupDay: 'Tuesday', pickupTime: '9:00 AM',
+  pickupDay: 'Tuesday', pickupTime: '12:00 PM',
 }));
-check('sandwich on weekday -> 200 (everyday)', res.status === 200);
+check('sandwich at weekday noon -> 200', res.status === 200);
 check('weekday sandwich name still has bagel type', sent.order.line_items[0].name === 'Plain Jane Bagel Sandwich (Plain bagel)');
+
+res = await handler(reqFor({
+  cart: [{ id: 'plain-jane', qty: 1, bagel: 'Plain' }],
+  pickupDay: 'Tuesday', pickupTime: '12:30 PM',
+}));
+check('sandwich after weekday noon -> 400', res.status === 400);
+
+res = await handler(reqFor({
+  cart: [{ id: 'the-piggy', qty: 1, bagel: 'Everything' }],
+  pickupDay: 'Saturday', pickupTime: '3:00 PM',
+}));
+check('sandwich after Saturday closing slot -> 400', res.status === 400);
+
+res = await handler(reqFor({
+  cart: [{ id: 'basic-b', qty: 1, bagel: 'Plain' }],
+  pickupDay: 'Funday', pickupTime: '9:00 AM',
+}));
+check('sandwich with invalid pickup day -> 400', res.status === 400);
 
 // 3) Non-sandwich on a weekday is fine --------------------------------------
 res = await handler(reqFor({

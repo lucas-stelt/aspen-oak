@@ -401,7 +401,7 @@
       <div class="weekend-note-icon">🥯</div>
       <div>
         <h3>Order ahead, skip the line</h3>
-        <p>Everything's available any day we're open. Pick your day and time at checkout and we'll have it ready.</p>
+        <p>Bagel sandwiches are available Monday–Friday until noon and all day Saturday–Sunday.</p>
       </div>
     </div>
 
@@ -410,20 +410,38 @@
       <div class="product-section-title">Bagel Sandwiches <span class="section-tag">Made to order</span></div>
       <div class="product-grid">
 
-        <div class="product-card" data-id="plain-jane" data-name="Plain Jane" data-desc="Bacon · Egg · Cheese" data-price="8.50" data-cents="850" data-bagel="true" data-option-label="Bagel type" data-options="Plain|Everything|Asiago|Jalapeño Cheddar">
-          <h4>Plain Jane</h4>
-          <p>Bacon · Egg · Cheese</p>
+        <div class="product-card" data-id="basic-b" data-name="Basic B" data-desc="Egg · Cheese" data-price="8.00" data-cents="800" data-bagel="true" data-option-label="Bagel type" data-options="Plain|Everything|Asiago|Jalapeño Cheddar">
+          <h4>Basic B</h4>
+          <p>Egg · Cheese</p>
           <div class="product-card-footer">
-            <span class="product-price">$8.50</span>
+            <span class="product-price">$8.00</span>
             <button class="add-btn">+ Add</button>
           </div>
         </div>
 
-        <div class="product-card" data-id="the-dilly" data-name="The Dilly" data-desc="Bacon · Egg · Cheese · Dill Cream Cheese · Hot Honey" data-price="9.50" data-cents="950" data-bagel="true" data-option-label="Bagel type" data-options="Plain|Everything|Asiago|Jalapeño Cheddar">
+        <div class="product-card" data-id="the-piggy" data-name="The Piggy" data-desc="Ham · Egg · Cheese" data-price="9.50" data-cents="950" data-bagel="true" data-option-label="Bagel type" data-options="Plain|Everything|Asiago|Jalapeño Cheddar">
+          <h4>The Piggy</h4>
+          <p>Ham · Egg · Cheese</p>
+          <div class="product-card-footer">
+            <span class="product-price">$9.50</span>
+            <button class="add-btn">+ Add</button>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="plain-jane" data-name="Plain Jane" data-desc="Bacon · Egg · Cheese" data-price="9.50" data-cents="950" data-bagel="true" data-option-label="Bagel type" data-options="Plain|Everything|Asiago|Jalapeño Cheddar">
+          <h4>Plain Jane</h4>
+          <p>Bacon · Egg · Cheese</p>
+          <div class="product-card-footer">
+            <span class="product-price">$9.50</span>
+            <button class="add-btn">+ Add</button>
+          </div>
+        </div>
+
+        <div class="product-card" data-id="the-dilly" data-name="The Dilly" data-desc="Bacon · Egg · Cheese · Dill Cream Cheese · Hot Honey" data-price="10.50" data-cents="1050" data-bagel="true" data-option-label="Bagel type" data-options="Plain|Everything|Asiago|Jalapeño Cheddar">
           <h4>The Dilly</h4>
           <p>Bacon · Egg · Cheese · Dill Cream Cheese · Hot Honey</p>
           <div class="product-card-footer">
-            <span class="product-price">$9.50</span>
+            <span class="product-price">$10.50</span>
             <button class="add-btn">+ Add</button>
           </div>
         </div>
@@ -560,18 +578,18 @@
           </div>
         </div>
 
-        <div class="product-card" data-id="latte" data-name="Latte" data-desc="Hot or iced" data-price="5.50" data-cents="550">
+        <div class="product-card" data-id="latte" data-name="Latte" data-desc="16 oz · Hot or iced" data-price="5.25" data-cents="525">
           <h4>Latte</h4>
-          <p>Espresso with steamed milk · Hot or iced</p>
+          <p>16 oz · Espresso with steamed milk · Hot or iced</p>
           <div class="product-card-footer">
-            <span class="product-price">$5.50</span>
+            <span class="product-price">$5.25</span>
             <button class="add-btn">+ Add</button>
           </div>
         </div>
 
-        <div class="product-card" data-id="chai-latte" data-name="Chai Latte" data-desc="Hot or iced" data-price="5.50" data-cents="550">
-          <h4>Chai Latte</h4>
-          <p>Spiced chai with steamed milk · Hot or iced</p>
+        <div class="product-card" data-id="chai-latte" data-name="Chai" data-desc="12 oz · Hot or iced" data-price="5.50" data-cents="550">
+          <h4>Chai</h4>
+          <p>12 oz · Spiced chai with steamed milk · Hot or iced</p>
           <div class="product-card-footer">
             <span class="product-price">$5.50</span>
             <button class="add-btn">+ Add</button>
@@ -623,8 +641,8 @@
         <p>Add a drink?</p>
         <div class="upsell-chips">
           <button class="upsell-chip" data-id="drip-coffee" data-name="Drip Coffee" data-cents="300">Drip Coffee +$3</button>
-          <button class="upsell-chip" data-id="latte" data-name="Latte" data-cents="550">Latte +$5.50</button>
-          <button class="upsell-chip" data-id="chai-latte" data-name="Chai Latte" data-cents="550">Chai Latte +$5.50</button>
+          <button class="upsell-chip" data-id="latte" data-name="Latte" data-cents="525">16 oz Latte +$5.25</button>
+          <button class="upsell-chip" data-id="chai-latte" data-name="12 oz Chai" data-cents="550">12 oz Chai +$5.50</button>
           <button class="upsell-chip" data-id="espresso" data-name="Espresso" data-cents="300">Espresso +$3</button>
         </div>
       </div>
@@ -731,10 +749,12 @@
       h = h % 12 || 12;
       return `${h}:${String(m).padStart(2, '0')} ${ampm}`;
     }
-    function slotsFor(day) {
+    function slotsFor(day, hasSandwich = false) {
       const [start, close] = HOURS[day] || [];
+      const isWeekday = ALL_DAYS.indexOf(day) < 5;
+      const lastPickup = hasSandwich && isWeekday ? 720 : close - 30;
       const out = [];
-      for (let t = start; t <= close - 30; t += 30) out.push(fmtTime(t));
+      for (let t = start; t <= lastPickup; t += 30) out.push(fmtTime(t));
       return out;
     }
 
@@ -767,6 +787,8 @@
 
     // ── Product photos (emoji fallback where we don't have a photo yet) ──
     const MEDIA = {
+      'basic-b': 'assets/Bagel.png',
+      'the-piggy': 'assets/bagel-cross-section.jpg',
       'plain-jane': 'assets/plain-jane-bagel.jpg',
       'the-dilly': 'assets/bagel-cross-section.jpg',
       'muffin': 'assets/muffin-variety.jpg',
@@ -968,6 +990,7 @@
       });
 
       populateDays();
+      populateTimes();
     }
 
     // ── Pickup day options (any open day) ──
@@ -983,17 +1006,24 @@
     }
 
     // ── Pickup time options ──
-    pickupDay.addEventListener('change', () => {
-      pickupDay.style.borderColor = '';
+    function populateTimes() {
       const day = pickupDay.value;
+      const previousTime = pickupTime.value;
       pickupTime.innerHTML = '<option value="">— Choose a time —</option>';
       if (!day) { pickupTime.disabled = true; return; }
       pickupTime.disabled = false;
-      slotsFor(day).forEach(t => {
+      const availableSlots = slotsFor(day, cart.some(item => item.bagel));
+      availableSlots.forEach(t => {
         const o = document.createElement('option');
         o.value = t; o.textContent = t;
         pickupTime.appendChild(o);
       });
+      if (availableSlots.includes(previousTime)) pickupTime.value = previousTime;
+    }
+
+    pickupDay.addEventListener('change', () => {
+      pickupDay.style.borderColor = '';
+      populateTimes();
     });
 
     // ── Checkout ──

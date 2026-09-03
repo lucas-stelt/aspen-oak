@@ -3,7 +3,7 @@
 Drives the page with Playwright + system Chrome, intercepts the /api/create-checkout
 POST to capture the payload the front-end would send, and asserts the cart behaves:
   - flavor item -> variant routing
-  - bagel item  -> bagel routing + weekend-only day restriction
+    - bagel item  -> bagel routing + weekday noon cutoff
   - quantities, totals, and option requirement
 """
 import json
@@ -42,7 +42,7 @@ def run():
         assert "Chocolate Chip" in pg.inner_text("#cart-items"), "variant should appear in cart"
         pg.click("#cart-close")  # cart opens after add; close before next product
 
-        # 2) Add a Plain Jane (bagel) — now available any open day -------------
+        # 2) Add a Plain Jane (bagel) ------------------------------------------
         pg.click('.product-card[data-id="plain-jane"]')
         assert "Bagel type" in pg.inner_text("#option-label"), "sandwich label should be Bagel type"
         pg.select_option("#modal-option", "Everything")
@@ -54,9 +54,15 @@ def run():
         assert day_opts == ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], \
             f"all open days should be available even with a sandwich, got {day_opts}"
 
-        # 3) Choose a WEEKDAY pickup + checkout (proves bagels aren't weekend-only) -
+        # 3) Weekday sandwich slots stop at noon; weekend slots run all day ----
         pg.select_option("#pickup-day", "Wednesday")
-        pg.select_option("#pickup-time", "9:00 AM")
+        weekday_times = pg.eval_on_selector_all("#pickup-time option", "els => els.map(e => e.value).filter(Boolean)")
+        assert weekday_times[-1] == "12:00 PM" and "12:30 PM" not in weekday_times, weekday_times
+        pg.select_option("#pickup-day", "Saturday")
+        weekend_times = pg.eval_on_selector_all("#pickup-time option", "els => els.map(e => e.value).filter(Boolean)")
+        assert weekend_times[-1] == "2:30 PM", weekend_times
+        pg.select_option("#pickup-day", "Wednesday")
+        pg.select_option("#pickup-time", "12:00 PM")
         pg.click("#checkout-btn")
         pg.wait_for_function("() => window.location.href.includes('checkout-stub')", timeout=5000)
 
@@ -69,7 +75,7 @@ def run():
     assert items["muffin"]["bagel"] is None
     assert items["plain-jane"]["bagel"] == "Everything", items["plain-jane"]
     assert items["plain-jane"]["variant"] is None
-    assert payload["pickupDay"] == "Wednesday" and payload["pickupTime"] == "9:00 AM"
+    assert payload["pickupDay"] == "Wednesday" and payload["pickupTime"] == "12:00 PM"
     print("PAYLOAD:", json.dumps(payload))
     print("ALL ASSERTIONS PASSED")
 

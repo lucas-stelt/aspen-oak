@@ -5,13 +5,15 @@ const ALLOWED_ORIGIN = 'https://aspenoakhome.com';
 //   bagel:        true  -> accepts an `entry.bagel` choice (Plain/Everything/...)
 //   variants:     list  -> accepts an `entry.variant` flavor/option from this set
 const ITEMS = {
-  'plain-jane':      { name: 'Plain Jane Bagel Sandwich', amount: 850, bagel: true },
-  'the-dilly':       { name: 'The Dilly Bagel Sandwich',  amount: 950, bagel: true },
+  'basic-b':         { name: 'Basic B Bagel Sandwich',    amount: 800,  bagel: true },
+  'the-piggy':       { name: 'The Piggy Bagel Sandwich',  amount: 950,  bagel: true },
+  'plain-jane':      { name: 'Plain Jane Bagel Sandwich', amount: 950,  bagel: true },
+  'the-dilly':       { name: 'The Dilly Bagel Sandwich',  amount: 1050, bagel: true },
 
   'drip-coffee':     { name: 'Drip Coffee',  amount: 300 },
   'espresso':        { name: 'Espresso',     amount: 300 },
-  'latte':           { name: 'Latte',        amount: 550 },
-  'chai-latte':      { name: 'Chai Latte',   amount: 550 },
+  'latte':           { name: '16 oz Latte',  amount: 525 },
+  'chai-latte':      { name: '12 oz Chai',   amount: 550 },
   'dirty-diet-coke': { name: 'Dirty Diet Coke', amount: 450, variants: ['Coke', 'Diet Coke'] },
 
   'muffin':          { name: 'Muffin',       amount: 350, variants: ['Blueberry', 'Mixed Berry', 'Chocolate Chip', 'Banana', 'Lemon Poppyseed'] },
@@ -28,6 +30,19 @@ const ITEMS = {
 };
 
 const ALLOWED_BAGELS = ['Plain', 'Everything', 'Asiago', 'Jalapeño Cheddar'];
+const BAGEL_PICKUP_WINDOWS = {
+  Monday: [480, 720], Tuesday: [480, 720], Wednesday: [480, 720],
+  Thursday: [480, 720], Friday: [480, 720],
+  Saturday: [480, 870], Sunday: [480, 690],
+};
+
+function pickupMinutes(value) {
+  const match = /^(1[0-2]|[1-9]):([0-5]\d) (AM|PM)$/.exec(value || '');
+  if (!match) return null;
+  let hours = Number(match[1]) % 12;
+  if (match[3] === 'PM') hours += 12;
+  return hours * 60 + Number(match[2]);
+}
 
 export default async (req) => {
   const origin = req.headers.get('origin') || '';
@@ -56,6 +71,7 @@ export default async (req) => {
 
   // Validate and build line items using server-side prices only
   const lineItems = [];
+  let containsBagelSandwich = false;
 
   for (const entry of cart) {
     const item = ITEMS[entry.id];
@@ -68,6 +84,8 @@ export default async (req) => {
     }
 
     let itemName = item.name;
+
+    if (item.bagel) containsBagelSandwich = true;
 
     if (item.bagel && entry.bagel && ALLOWED_BAGELS.includes(entry.bagel)) {
       itemName += ` (${entry.bagel} bagel)`;
@@ -82,6 +100,14 @@ export default async (req) => {
       quantity: String(qty),
       base_price_money: { amount: item.amount, currency: 'USD' },
     });
+  }
+
+  if (containsBagelSandwich) {
+    const minutes = pickupMinutes(pickupTime);
+    const window = BAGEL_PICKUP_WINDOWS[pickupDay];
+    if (!window || minutes === null || minutes < window[0] || minutes > window[1]) {
+      return new Response(JSON.stringify({ error: 'Bagel sandwiches are available weekdays until noon and all day on weekends.' }), { status: 400 });
+    }
   }
 
   const pickupLine = pickupDay && pickupTime ? `Pickup: ${pickupDay} at ${pickupTime}` : '';
