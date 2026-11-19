@@ -22,17 +22,11 @@ const ITEMS = {
   'hot-chocolate':   { name: 'Hot Chocolate', sizes: { '12 oz': 400, '16 oz': 450 }, milk: true, syrup: true },
   'dirty-diet-coke': { name: 'Dirty Diet Coke', amount: 450, variants: ['Coke', 'Diet Coke'] },
 
-  'muffin':          { name: 'Muffin',       amount: 350, variants: ['Blueberry', 'Mixed Berry', 'Chocolate Chip', 'Banana', 'Lemon Poppyseed'] },
+  'muffin':          { name: 'Muffin',       amount: 375, variants: ['Blueberry', 'Mixed Berry', 'Chocolate Chip', 'Banana', 'Lemon Poppyseed'] },
   'pop-tart':        { name: 'Pop-Tart',     amount: 350, variants: ['Nutella', 'Strawberry', 'Blueberry'] },
-  'mm-cookie':       { name: 'M&M Sandwich Cookie', amount: 350 },
-  'bar':             { name: 'Bar',          amount: 350, variants: ['7-Layer', 'Strawberry Crunch Cheesecake', 'Lemon Coconut Blondie', 'White Chocolate Macadamia Blondie'] },
-  'sugar-cookie-sm': { name: 'Sugar Cookie (Small)', amount: 100 },
-  'sugar-cookie-lg': { name: 'Sugar Cookie (Large)', amount: 200 },
 
   'dirt-cup':        { name: 'Dirt Cake Cup', amount: 550, variants: ['Oreo Dirt Cake', 'Vanilla Oreo Dirt Cake', 'Circus Animal Cookie Cake', "S'mores"] },
   'energy-bites':    { name: 'Energy Bites',  amount: 550, variants: ['M&M Bites', 'Date Chocolate Cherry Bites'] },
-  'overnight-oats':  { name: 'Triple Berry Overnight Oats', amount: 550 },
-  'chia-pudding':    { name: 'Blueberry Chia Pudding',      amount: 550 },
 };
 
 const ALLOWED_BAGELS = ['Plain', 'Everything', 'Asiago', 'Jalapeño Cheddar'];
@@ -41,7 +35,7 @@ const ALLOWED_SYRUPS = ['No syrup', 'Vanilla', 'Brown sugar', 'Brown sugar cinna
 const BAGEL_PICKUP_WINDOWS = {
   Monday: [480, 720], Tuesday: [480, 720], Wednesday: [480, 720],
   Thursday: [480, 720], Friday: [480, 720],
-  Saturday: [480, 870], Sunday: [480, 690],
+  Saturday: [480, 870], Sunday: [480, 870],
 };
 
 function pickupMinutes(value) {

@@ -29,15 +29,16 @@ def run():
 
         pg.goto(URL)
 
-        # 0) Product photos injected (real photo + emoji placeholder fallback) -
+        # 0) Product photos appear on cards with an image ---------------------
         assert pg.get_attribute('.product-card[data-id="muffin"] .product-card-media img', "src"), "muffin should get a photo"
-        assert pg.query_selector('.product-card[data-id="drip-coffee"] .product-card-media.ph'), "drip coffee should get a placeholder tile"
+        assert pg.query_selector('.product-card[data-id="drip-coffee"] .product-card-media') is None
         assert pg.query_selector("#pickup-hint") is None, "weekend hint element should be gone"
 
         # 1) Add a Muffin (flavor variant) -------------------------------------
         pg.click('.product-card[data-id="muffin"]')
         assert pg.is_visible("#option-section"), "option selector should show for muffin"
         assert "Flavor" in pg.inner_text("#option-label"), "label should read Flavor"
+        assert pg.inner_text("#modal-price") == "$3.75"
         pg.select_option("#modal-option", "Chocolate Chip")
         pg.click("#modal-add-btn")
         assert "Chocolate Chip" in pg.inner_text("#cart-items"), "variant should appear in cart"
@@ -73,9 +74,10 @@ def run():
         pg.select_option("#pickup-day", "Wednesday")
         weekday_times = pg.eval_on_selector_all("#pickup-time option", "els => els.map(e => e.value).filter(Boolean)")
         assert weekday_times[-1] == "12:00 PM" and "12:30 PM" not in weekday_times, weekday_times
-        pg.select_option("#pickup-day", "Saturday")
-        weekend_times = pg.eval_on_selector_all("#pickup-time option", "els => els.map(e => e.value).filter(Boolean)")
-        assert weekend_times[-1] == "2:30 PM", weekend_times
+        for day in ("Saturday", "Sunday"):
+            pg.select_option("#pickup-day", day)
+            weekend_times = pg.eval_on_selector_all("#pickup-time option", "els => els.map(e => e.value).filter(Boolean)")
+            assert weekend_times[-1] == "2:30 PM", (day, weekend_times)
         pg.select_option("#pickup-day", "Wednesday")
         pg.select_option("#pickup-time", "12:00 PM")
         pg.click("#checkout-btn")

@@ -64,7 +64,6 @@
       max-width: 680px;
       margin: 0 auto 3rem;
     }
-    .weekend-note-icon { font-size: 1.75rem; line-height: 1; }
     .weekend-note h3 { margin: 0 0 0.25rem; font-size: 1rem; }
     .weekend-note p { margin: 0; font-size: 0.875rem; color: var(--mid); }
 
@@ -104,12 +103,6 @@
       transition: transform 0.35s ease;
     }
     .product-card:hover .product-card-media img { transform: scale(1.05); }
-    .product-card-media.ph {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.75rem;
-    }
     .product-card:hover {
       border-color: var(--orange);
       box-shadow: 0 4px 16px rgba(0,0,0,0.08);
@@ -383,7 +376,7 @@
       <li><a href="contact.html">Contact</a></li>
       <li>
         <button class="cart-nav-btn" id="cart-open-btn" aria-label="Open cart">
-          🛒 Cart <span class="cart-count" id="cart-count">0</span>
+          Cart <span class="cart-count" id="cart-count">0</span>
         </button>
       </li>
     </ul>
@@ -398,7 +391,6 @@
   <div class="order-page">
 
     <div class="weekend-note">
-      <div class="weekend-note-icon">🥯</div>
       <div>
         <h3>Order ahead, skip the line</h3>
         <p>Bagel sandwiches are available Monday–Friday until noon and all day Saturday–Sunday.</p>
@@ -454,11 +446,11 @@
       <div class="product-section-title">Bakery</div>
       <div class="product-grid">
 
-        <div class="product-card" data-id="muffin" data-name="Muffin" data-desc="Baked fresh daily" data-price="3.50" data-cents="350" data-option-label="Flavor" data-options="Blueberry|Mixed Berry|Chocolate Chip|Banana|Lemon Poppyseed">
+        <div class="product-card" data-id="muffin" data-name="Muffin" data-desc="Baked fresh daily" data-price="3.75" data-cents="375" data-option-label="Flavor" data-options="Blueberry|Mixed Berry|Chocolate Chip|Banana|Lemon Poppyseed">
           <h4>Muffin</h4>
           <p>Five flavors, baked fresh daily</p>
           <div class="product-card-footer">
-            <span class="product-price">$3.50</span>
+            <span class="product-price">$3.75</span>
             <button class="add-btn">+ Add</button>
           </div>
         </div>
@@ -468,42 +460,6 @@
           <p>Flaky house pastry, topped &amp; sprinkled</p>
           <div class="product-card-footer">
             <span class="product-price">$3.50</span>
-            <button class="add-btn">+ Add</button>
-          </div>
-        </div>
-
-        <div class="product-card" data-id="mm-cookie" data-name="M&amp;M Sandwich Cookie" data-desc="Sprinkle-rimmed buttercream" data-price="3.50" data-cents="350">
-          <h4>M&amp;M Sandwich Cookie</h4>
-          <p>Two cookies, sprinkle-rimmed buttercream</p>
-          <div class="product-card-footer">
-            <span class="product-price">$3.50</span>
-            <button class="add-btn">+ Add</button>
-          </div>
-        </div>
-
-        <div class="product-card" data-id="bar" data-name="Bar" data-desc="Rotating house bars" data-price="3.50" data-cents="350" data-option-label="Flavor" data-options="7-Layer|Strawberry Crunch Cheesecake|Lemon Coconut Blondie|White Chocolate Macadamia Blondie">
-          <h4>Bars</h4>
-          <p>7-layer, blondies, strawberry crunch cheesecake</p>
-          <div class="product-card-footer">
-            <span class="product-price">$3.50</span>
-            <button class="add-btn">+ Add</button>
-          </div>
-        </div>
-
-        <div class="product-card" data-id="sugar-cookie-sm" data-name="Sugar Cookie (Small)" data-desc="Decorated, soft-baked" data-price="1.00" data-cents="100">
-          <h4>Sugar Cookie — Small</h4>
-          <p>Decorated, soft-baked</p>
-          <div class="product-card-footer">
-            <span class="product-price">$1.00</span>
-            <button class="add-btn">+ Add</button>
-          </div>
-        </div>
-
-        <div class="product-card" data-id="sugar-cookie-lg" data-name="Sugar Cookie (Large)" data-desc="Decorated, soft-baked" data-price="2.00" data-cents="200">
-          <h4>Sugar Cookie — Large</h4>
-          <p>Decorated, soft-baked</p>
-          <div class="product-card-footer">
-            <span class="product-price">$2.00</span>
             <button class="add-btn">+ Add</button>
           </div>
         </div>
@@ -528,24 +484,6 @@
         <div class="product-card" data-id="energy-bites" data-name="Energy Bites" data-desc="No-bake oat bites" data-price="5.50" data-cents="550" data-option-label="Flavor" data-options="M&amp;M Bites|Date Chocolate Cherry Bites">
           <h4>Energy Bites</h4>
           <p>No-bake oat bites, honey &amp; maple</p>
-          <div class="product-card-footer">
-            <span class="product-price">$5.50</span>
-            <button class="add-btn">+ Add</button>
-          </div>
-        </div>
-
-        <div class="product-card" data-id="overnight-oats" data-name="Triple Berry Overnight Oats" data-desc="Oats, chia, triple berry" data-price="5.50" data-cents="550">
-          <h4>Triple Berry Overnight Oats</h4>
-          <p>Creamy overnight oats with chia &amp; berries</p>
-          <div class="product-card-footer">
-            <span class="product-price">$5.50</span>
-            <button class="add-btn">+ Add</button>
-          </div>
-        </div>
-
-        <div class="product-card" data-id="chia-pudding" data-name="Blueberry Chia Pudding" data-desc="Creamy chia, blueberry" data-price="5.50" data-cents="550">
-          <h4>Blueberry Chia Pudding</h4>
-          <p>Creamy chia pudding layered with blueberry</p>
           <div class="product-card-footer">
             <span class="product-price">$5.50</span>
             <button class="add-btn">+ Add</button>
@@ -779,7 +717,7 @@
         <ul>
           <li>Mon–Fri: 8:00 AM – 5:00 PM</li>
           <li>Saturday: 8:00 AM – 3:00 PM</li>
-          <li>Sunday: 8:00 AM – 12:00 PM</li>
+          <li>Sunday: 8:00 AM – 3:00 PM</li>
         </ul>
       </div>
     </div>
@@ -798,7 +736,7 @@
       Monday:    [480, 1020], Tuesday:  [480, 1020], Wednesday: [480, 1020],
       Thursday:  [480, 1020], Friday:   [480, 1020],
       Saturday:  [480, 900],
-      Sunday:    [480, 720],
+      Sunday:    [480, 900],
     };
     const ALL_DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 
@@ -851,7 +789,7 @@
     const checkoutError = document.getElementById('checkout-error');
     const checkoutBtn   = document.getElementById('checkout-btn');
 
-    // ── Product photos (emoji fallback where we don't have a photo yet) ──
+    // ── Product photos ──
     const MEDIA = {
       'basic-b': 'assets/Bagel.png',
       'the-piggy': 'assets/bagel-cross-section.jpg',
@@ -859,42 +797,24 @@
       'the-dilly': 'assets/bagel-cross-section.jpg',
       'muffin': 'assets/muffin-variety.jpg',
       'pop-tart': 'assets/pop-tarts.jpg',
-      'mm-cookie': 'assets/cookie-sandwiches.jpg',
-      'bar': '🍫',
-      'sugar-cookie-sm': 'assets/sugarcookie.png',
-      'sugar-cookie-lg': 'assets/sugarcookie.png',
       'dirt-cup': 'assets/chocolate-pudding-cup.jpg',
-      'energy-bites': '🥜',
-      'overnight-oats': 'assets/overnightoats.png',
-      'chia-pudding': '🫐',
-      'drip-coffee': '☕',
-      'espresso': '☕',
       'latte': 'assets/latte.jpg',
-      'cappuccino': '☕',
-      'americano': '☕',
       'mocha': 'assets/latte.jpg',
-      'chai-latte': '☕',
-      'chai-charger': '☕',
-      'hot-chocolate': '☕',
-      'dirty-diet-coke': '🥤',
     };
 
     // ── Inject product photo + open modal on click ──
     document.querySelectorAll('.product-card').forEach(card => {
-      const media = document.createElement('div');
       const src = MEDIA[card.dataset.id];
-      if (src && src.startsWith('assets/')) {
+      if (src) {
+        const media = document.createElement('div');
         media.className = 'product-card-media';
         const img = document.createElement('img');
         img.src = src;
         img.alt = card.dataset.name;
         img.loading = 'lazy';
         media.appendChild(img);
-      } else {
-        media.className = 'product-card-media ph';
-        media.textContent = src || '🥯';
+        card.prepend(media);
       }
-      card.insertBefore(media, card.firstElementChild);
       card.addEventListener('click', () => openModal(card.dataset));
     });
 
