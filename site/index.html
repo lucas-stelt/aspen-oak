@@ -64,6 +64,10 @@
     </ul>
   </nav>
 
+  <div class="holiday-banner" id="holiday-banner" hidden>
+    <a href="#thanksgiving">Thanksgiving preorders · Due Saturday, November 21</a>
+  </div>
+
   <!-- ─── Hero ─── -->
   <section class="hero-v2">
     <div class="hero-bg-word" aria-hidden="true">AspenOak</div>
@@ -155,6 +159,41 @@
     <div class="strip-divider"></div>
     <div class="hours-item"><span class="day">Sunday</span><span>8:00 AM – 3:00 PM</span></div>
   </div>
+
+  <section class="section-sm holiday-section" id="thanksgiving" aria-labelledby="thanksgiving-title" data-closes-at="2026-11-22T00:00:00-06:00" hidden>
+    <div class="container holiday-layout">
+      <div class="holiday-intro">
+        <p class="section-label">Thanksgiving preorders</p>
+        <h2 class="section-title" id="thanksgiving-title">Happy Turkey Day</h2>
+        <p><strong>Orders due <time datetime="2026-11-21">Saturday, November 21</time>.</strong></p>
+        <p>Order by email, <a href="https://www.instagram.com/AspenOakHome/">send us a DM</a>, or stop in at 633 N 8th Street.</p>
+        <a class="btn holiday-order" href="mailto:home@aspenoakhomestore.com?subject=Thanksgiving%20Preorder">Email your preorder</a>
+      </div>
+
+      <div class="holiday-artwork">
+        <img src="assets/pumpkin-sugar-cookies.webp" alt="Pumpkin-shaped sugar cookies with orange icing and green vines" width="917" height="916" loading="lazy">
+        <img src="assets/thanksgiving-2026-preorders.webp" alt="Happy Turkey Day flyer with a pumpkin pie" width="917" height="914" loading="lazy">
+      </div>
+
+      <div class="holiday-menu">
+        <h3>Thanksgiving menu</h3>
+        <dl>
+          <div><dt>Pumpkin sugar cookies</dt><dd>$15.00 / dozen</dd></div>
+          <div><dt>Pumpkin cupcakes</dt><dd>$24.00 / dozen<br>$12.50 / 6-pack</dd></div>
+          <div><dt>Cinnamon rolls</dt><dd>$25.00 / 6-pack</dd></div>
+          <div><dt>Pumpkin pie <small>Flaky butter crust</small></dt><dd>$20.00</dd></div>
+          <div><dt>Cranberry lime curd pie <small>Ginger pecan crust</small></dt><dd>$27.00</dd></div>
+          <div><dt>Chocolate pecan pie <small>Flaky butter crust</small></dt><dd>$27.00</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+  <script>
+    const holidaySection = document.getElementById('thanksgiving');
+    const preordersClosed = !(Date.now() < Date.parse(holidaySection.dataset.closesAt));
+    holidaySection.hidden = preordersClosed;
+    document.getElementById('holiday-banner').hidden = preordersClosed;
+  </script>
 
   <!-- ─── What We Make ─── -->
   <section class="section">
